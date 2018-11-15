@@ -1,41 +1,223 @@
 #include<stdio.h>
 #include<iostream>
-#include "BFS_DFS_adjList.h"
+#include <vector>
+// #include "BFS_DFS_adjList.h"
 
 using namespace std;
 
-class MyClass
+#define LEFT_BANK 1
+#define RIGHT_BANK 0
+
+
+class State
 {
+    int missionary, cannibal, side; 
+
 public:
-    MyClass();
-    
-    Graph g;
-    int m; 
-private:
-    
+    State(int m, int c, int s);
+    int getCannibal(){return cannibal;}
+    int getMissionary(){return missionary;}
+    int getSide(){return side;}
+    bool isvalid();
+    bool isGoal();
 };
 
 
-MyClass::MyClass()
+State::State(int m, int c, int s)
 {
+    missionary = m;
+    cannibal = c;
+    side = s;
 }
 
-MyClass::~MyClass()
-{
+bool State::isvalid(){
+    return true;
 }
 
-void uninformedSearch(Graph g){
+bool State::isGoal(){
+    if(missionary == 0 && cannibal==0 && side == RIGHT_BANK){return true;}
+    else{return false;}
+}
+
+class Graph
+{
+    State *startState, *goalState;
+    vector<State> openlist;
+    vector<State> closelist;
+
+    int TotalMissionary, TotalCannibal;
+public:
+    Graph(int m, int c);
+    ~Graph();
+
+    bool solvable();
+    int bfs(State s);
+    int dfs(State s);
+    void dfsVisit(State s);
+    vector<State> expand(State s);    
+};
+
+Graph::Graph(int m, int c)
+{
+    startState = new State(m,c,LEFT_BANK);
+    TotalMissionary = m;
+    TotalCannibal = c;
+    goalState = new State(0,0,RIGHT_BANK);
+}
+
+bool Graph::solvable(){
+    return true;
+}
+
+int Graph::bfs(State s){
+    
+    //complete this function
+    //initialize BFS variables
+    // for(int i=0; i<nVertices; i++)
+    // {
+    //     color[i] = WHITE ;
+    //     parent[i] = -1 ;
+    //     dist[i] = INFINITY ;
+    // }
+    
+    //Queue q ;
+    int k=1;
+    openlist.push_back(s); //color[source] = GREY;
+
+    //dist[source] = 0 ; -> distance covered
+    // q.enqueue(source);
+    while(!openlist.empty())
+    {
+        bool flag = true;
+        State uncovered = openlist.front();
+        openlist.erase(openlist.begin() , openlist.begin() + 1);
+
+        vector<State> nextState = expand(uncovered);
+
+        printf("( %d,%d,%d ) --",uncovered.getMissionary(),uncovered.getCannibal(),uncovered.getSide());
+        closelist.push_back(uncovered);  //color[source]= BLACK;
+        
+        
+        while(!nextState.empty()){
+            State visit = nextState.front(); //grey node (bfs)
+            nextState.erase(nextState.begin() , nextState.begin() + 1);
+
+            if(visit.isvalid()){
+                if(visit.isGoal()){
+                    return 1000;
+                }
+                else{
+                    openlist.push_back(visit);
+                }
+            }
+
+        }
+        
+        // for(int i=0; i< adjList[source].getLength() ; i++){
+        //     int idx = adjList[source].getItem(i);
+        //     if(color[idx]== 1 ){
+        //         color[idx] = 2;
+        //         dist[idx] = k;
+        //         q.enqueue(idx);
+        //         parent[idx] = source;
+        //         flag = false;
+        //     }
+        // }
+        if(!flag){
+            k++;
+        }
+
+    }
+
+    return 12;
+}
+
+vector<State> Graph::expand(State s){
+
+int pos = s.getSide();
+int missionary = s.getMissionary();
+int cannibal = s.getCannibal();
+
+vector<State *> nextStates;
+if(pos == LEFT_BANK){
+    
+    int iter = 2;
+    while (iter > 0 && cannibal > 0) {
+      --cannibal;
+      --iter;
+      State *s = new State(cannibal, missionary, RIGHT_BANK);
+      if(!s->isvalid()) {
+        delete[] s;
+        continue;
+      }
+    //   if(search(s, allStates)) {
+    //     continue;
+    //   }
+      nextStates.push_back(s);
+    }
+
+    iter = 2;
+    while (iter > 0 && missionary > 0) {
+      --missionary;
+      --iter;
+      State *s = new State(cannibal, missionary, RIGHT_BANK);
+      if(!s->isvalid()) {
+        delete[] s;
+        continue;
+      }
+    //   if(search(s, allStates)) {
+    //     continue;
+    //   }
+      nextStates.push_back(s);
+    }
+
+    // num_miss = std::get<1>((*startingState).getStateAttr());
+    if(cannibal > 0 && missionary > 0) {
+      State *s = new State(cannibal - 1, missionary - 1, RIGHT_BANK);
+    //   if(s->isvalid() && !search(s, allStates)) {
+      if(s->isvalid()) {
+        nextStates.push_back(s);
+      } 
+      else {
+        delete[] s;
+      }
+    }
+}
+else{
+
+}
+
+
+}
+
+Graph::~Graph()
+{
 
 }
 
 int main(){
 
-    Graph g;
-
-    int m,c;
+    
+    int missionary ,cannibal;
     printf("Enter number of man and cannibals\n");
 
-    scanf("%d%d", &m, &c);
+    scanf("%d%d", &missionary, &cannibal);
+
+    if(missionary > 0 && cannibal > missionary) {
+        cout << "No solution exists ..." <<endl;
+        return 0;
+    }
+  
+    State *startState = new State(missionary, cannibal, LEFT_BANK);
+    Graph *g = new Graph(missionary, cannibal);
+    //g.showConnections();
+    
+    if(!g->solvable()) {
+        cout << "No solution exists ..." << endl;
+        return 0;
+    }
+
+    cout << "Total paths: " << g->bfs(new State(missionary, cannibal, LEFT_BANK)) <<endl; // No, of times boat crossed the river
 
 
     return 0;
