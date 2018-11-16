@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<iostream>
 #include <vector>
+#include <fstream>
 // #include "BFS_DFS_adjList.h"
 #include "State.h"
 
@@ -15,6 +16,7 @@ class Graph
     State *startState, *goalState;
     vector<State *> openlist;
     vector<State *> closelist;
+    ofstream myfile;
 
     int TotalMissionary, TotalCannibal , TotalCapacity;
 public:
@@ -35,6 +37,9 @@ Graph::Graph(int m, int c , int capacity, State * start)
     TotalCannibal = c;
     TotalCapacity = capacity;
     goalState = new State(0,0,RIGHT_BANK);
+
+    myfile.open ("output.txt");
+
 }
 
 bool Graph::solvable(){
@@ -57,6 +62,11 @@ int Graph::bfs(State * s){
         vector<State *> nextState = expand(uncovered);
         uncovered->setChildState(nextState);
         uncovered->printState();
+        printf("\n --> ");
+
+        myfile<<" ("<<uncovered->getMissionary()<<","<<uncovered->getCannibal()<<","<<uncovered->getSide()<<") ";    
+
+        myfile << "\n --> ";
 
         // printf("( %d,%d,%d ) --",uncovered->getMissionary(),uncovered->getCannibal(),uncovered->getSide());
         closelist.push_back(uncovered);  //color[source]= BLACK;
@@ -65,19 +75,23 @@ int Graph::bfs(State * s){
         while(!nextState.empty()){
             State * visit = nextState.front(); //grey node (bfs)
             nextState.erase(nextState.begin() , nextState.begin() + 1);
-
+            visit->printState();
+            
             if(visit->isvalid()){
                 if(visit->isGoal()){
-                    return 1000;
+                    return k;
                 }
                 else{
                     openlist.push_back(visit);
+                    myfile<<" ("<<visit->getMissionary()<<","<<visit->getCannibal()<<","<<visit->getSide()<<") ";    
+
                     flag = false;
                 }
             }
 
         }
-        
+        printf("\n -------------------------\n");
+        myfile<<"\n -------------------------\n";
         // for(int i=0; i< adjList[source].getLength() ; i++){
         //     int idx = adjList[source].getItem(i);
         //     if(color[idx]== 1 ){
@@ -111,40 +125,48 @@ vector<State *> Graph::expand(State * s){
         
         for (int i = 0; i <= missionary; i++)
         {
-            for (int j = 0; j <= cannibal; j++)
+            for (int j = 0; j <= cannibal ; j++)
             {
                 if( i ==0 && j == 0)
                     continue;
 
-                if (i + j > TotalCapacity)
-                    break;
+                if ((missionary - i) + (cannibal - j) > TotalCapacity || ((missionary - i) + (cannibal - j) ) == 0 )
+                    continue;
                 //good state found, so add to agenda
                 bMiss = i;
                 bCann = j;
                 State * child = new State(bMiss , bCann , RIGHT_BANK);
-                child->setParent(s);
-                nextStates.push_back(child);
-                // addStateToAgenda("_" + stateName++, CurState, nMiss, nCan);
+                if(child->isvalid()){
+                    child->setParent(s);
+                    nextStates.push_back(child);
+                }
+                else{
+                    delete child;
+                }
             }
         }
     }
     else{
-        for (int i = 1; i <= TotalMissionary - missionary; i++)
+        for (int i = 0; i <= TotalMissionary - missionary; i++) //Total - miss in other bank
         {
-            for (int j = 1; j <= TotalCannibal - cannibal; j++)
+            for (int j = 0; j <= TotalCannibal - cannibal; j++)
             {
                 if( i ==0 && j == 0)
                     continue;
                 
-                if (i + j > TotalCapacity)
-                    break;
+                if ((missionary - i) + (cannibal - j) > TotalCapacity || ((missionary - i) + (cannibal - j) ) == 0 )
+                    continue;
                 //good state found, so add to agenda
                 bMiss = i;
                 bCann = j;
                 State * child = new State(bMiss , bCann , LEFT_BANK);
-                child->setParent(s);
-                nextStates.push_back(child);
-                // addStateToAgenda("_" + stateName++, CurState, nMiss, nCan);
+                if(child->isvalid()){
+                    child->setParent(s);
+                    nextStates.push_back(child);
+                }
+                else{
+                    delete child;
+                }
             }
         }
     }
@@ -202,5 +224,6 @@ vector<State *> Graph::expand(State * s){
 
 Graph::~Graph()
 {
+    myfile.close();
 
 }

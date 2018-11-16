@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<iostream>
 #include <vector>
+#include <fstream>
+
 // #include "BFS_DFS_adjList.h"
 // #include "State.h"
 #include "Graph.h"
@@ -14,6 +16,8 @@ using namespace std;
 
 int main(){
 
+    // ofstream myfile;
+    // myfile.open ("output.txt");
     
     int missionary ,cannibal , boatCap;
     printf("Enter number of man and cannibals and boat capacity\n");
@@ -35,6 +39,7 @@ int main(){
 
     cout << "Total paths: " << g->bfs(startState) <<endl; // No, of times boat crossed the river
 
+    // myfile.close();
 
     return 0;
 }
