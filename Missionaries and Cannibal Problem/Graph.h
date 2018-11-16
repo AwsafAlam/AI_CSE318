@@ -76,6 +76,7 @@ int Graph::bfs(State * s){
             State * visit = nextState.front(); //grey node (bfs)
             nextState.erase(nextState.begin() , nextState.begin() + 1);
             visit->printState();
+            myfile<<" ("<<visit->getMissionary()<<","<<visit->getCannibal()<<","<<visit->getSide()<<") ";    
             
             if(visit->isvalid()){
                 if(visit->isGoal()){
@@ -83,7 +84,6 @@ int Graph::bfs(State * s){
                 }
                 else{
                     openlist.push_back(visit);
-                    myfile<<" ("<<visit->getMissionary()<<","<<visit->getCannibal()<<","<<visit->getSide()<<") ";    
 
                     flag = false;
                 }
@@ -147,9 +147,9 @@ vector<State *> Graph::expand(State * s){
         }
     }
     else{
-        for (int i = 0; i <= TotalMissionary - missionary; i++) //Total - miss in other bank
+        for (int i = 0; i <=  missionary; i++) //Total - miss in other bank
         {
-            for (int j = 0; j <= TotalCannibal - cannibal; j++)
+            for (int j = 0; j <=  cannibal; j++)
             {
                 if( i ==0 && j == 0)
                     continue;

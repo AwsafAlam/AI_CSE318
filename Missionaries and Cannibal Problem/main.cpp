@@ -38,7 +38,7 @@ int main(){
     // }
 
     cout << "Total paths: " << g->bfs(startState) <<endl; // No, of times boat crossed the river
-
+    delete g;
     // myfile.close();
 
     return 0;
