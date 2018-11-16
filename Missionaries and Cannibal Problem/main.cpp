@@ -12,7 +12,8 @@ using namespace std;
 class State
 {
     int missionary, cannibal, side; 
-
+    State *parent;
+    vector<State *> childStates;
 public:
     State(int m, int c, int s);
     int getCannibal(){return cannibal;}
@@ -42,8 +43,8 @@ bool State::isGoal(){
 class Graph
 {
     State *startState, *goalState;
-    vector<State> openlist;
-    vector<State> closelist;
+    vector<State *> openlist;
+    vector<State *> closelist;
 
     int TotalMissionary, TotalCannibal;
 public:
@@ -51,10 +52,10 @@ public:
     ~Graph();
 
     bool solvable();
-    int bfs(State s);
-    int dfs(State s);
-    void dfsVisit(State s);
-    vector<State> expand(State s);    
+    int bfs(State * s);
+    int dfs(State * s);
+    void dfsVisit(State * s);
+    vector<State *> expand(State * s);    
 };
 
 Graph::Graph(int m, int c)
@@ -69,18 +70,8 @@ bool Graph::solvable(){
     return true;
 }
 
-int Graph::bfs(State s){
+int Graph::bfs(State * s){
     
-    //complete this function
-    //initialize BFS variables
-    // for(int i=0; i<nVertices; i++)
-    // {
-    //     color[i] = WHITE ;
-    //     parent[i] = -1 ;
-    //     dist[i] = INFINITY ;
-    // }
-    
-    //Queue q ;
     int k=1;
     openlist.push_back(s); //color[source] = GREY;
 
@@ -89,21 +80,21 @@ int Graph::bfs(State s){
     while(!openlist.empty())
     {
         bool flag = true;
-        State uncovered = openlist.front();
+        State * uncovered = openlist.front();
         openlist.erase(openlist.begin() , openlist.begin() + 1);
 
-        vector<State> nextState = expand(uncovered);
+        vector<State *> nextState = expand(uncovered);
 
-        printf("( %d,%d,%d ) --",uncovered.getMissionary(),uncovered.getCannibal(),uncovered.getSide());
+        printf("( %d,%d,%d ) --",uncovered->getMissionary(),uncovered->getCannibal(),uncovered->getSide());
         closelist.push_back(uncovered);  //color[source]= BLACK;
         
         
         while(!nextState.empty()){
-            State visit = nextState.front(); //grey node (bfs)
+            State * visit = nextState.front(); //grey node (bfs)
             nextState.erase(nextState.begin() , nextState.begin() + 1);
 
-            if(visit.isvalid()){
-                if(visit.isGoal()){
+            if(visit->isvalid()){
+                if(visit->isGoal()){
                     return 1000;
                 }
                 else{
@@ -132,11 +123,11 @@ int Graph::bfs(State s){
     return 12;
 }
 
-vector<State> Graph::expand(State s){
+vector<State *> Graph::expand(State * s){
 
-int pos = s.getSide();
-int missionary = s.getMissionary();
-int cannibal = s.getCannibal();
+int pos = s->getSide();
+int missionary = s->getMissionary();
+int cannibal = s->getCannibal();
 
 vector<State *> nextStates;
 if(pos == LEFT_BANK){
