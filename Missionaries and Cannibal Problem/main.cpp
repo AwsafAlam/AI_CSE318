@@ -2,7 +2,7 @@
 #include<iostream>
 #include <vector>
 // #include "BFS_DFS_adjList.h"
-#include "State.h"
+// #include "State.h"
 #include "Graph.h"
 
 using namespace std;
@@ -18,7 +18,7 @@ int main(){
     int missionary ,cannibal , boatCap;
     printf("Enter number of man and cannibals and boat capacity\n");
 
-    scanf("%d%d%d", &missionary, &cannibal, boatCap);
+    scanf("%d%d%d", &missionary, &cannibal, &boatCap);
 
     if(missionary > 0 && cannibal > missionary) {
         cout << "No solution exists ..." <<endl;
@@ -28,10 +28,10 @@ int main(){
     State *startState = new State(missionary, cannibal, LEFT_BANK);
     Graph *g = new Graph(missionary, cannibal , boatCap , startState);
     
-    if(!g->solvable()) {
-        cout << "No solution exists ..." << endl;
-        return 0;
-    }
+    // if(!g->solvable()) {
+    //     cout << "No solution exists ..." << endl;
+    //     return 0;
+    // }
 
     cout << "Total paths: " << g->bfs(startState) <<endl; // No, of times boat crossed the river
 

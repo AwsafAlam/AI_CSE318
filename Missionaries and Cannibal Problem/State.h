@@ -18,8 +18,11 @@ public:
     int getMissionary(){return missionary;}
     int getSide(){return side;}
     void setChildState(vector<State *> s){childStates = s;}
+    void setParent(State * s){parent = s;}
+    State * getParent(){return parent;}
     bool isvalid();
     bool isGoal();
+    void printState(){printf("(%d,%d,%d)",missionary,cannibal,side);}
 };
 
 

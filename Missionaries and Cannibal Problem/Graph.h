@@ -56,8 +56,9 @@ int Graph::bfs(State * s){
 
         vector<State *> nextState = expand(uncovered);
         uncovered->setChildState(nextState);
+        uncovered->printState();
 
-        printf("( %d,%d,%d ) --",uncovered->getMissionary(),uncovered->getCannibal(),uncovered->getSide());
+        // printf("( %d,%d,%d ) --",uncovered->getMissionary(),uncovered->getCannibal(),uncovered->getSide());
         closelist.push_back(uncovered);  //color[source]= BLACK;
         
         
@@ -98,59 +99,104 @@ int Graph::bfs(State * s){
 
 vector<State *> Graph::expand(State * s){
 
-int pos = s->getSide();
-int missionary = s->getMissionary();
-int cannibal = s->getCannibal();
+    int pos = s->getSide();
+    int missionary = s->getMissionary();
+    int cannibal = s->getCannibal();
 
-vector<State *> nextStates;
-if(pos == LEFT_BANK){
-    
-    int iter = 2;
-    while (iter > 0 && cannibal > 0) {
-      --cannibal;
-      --iter;
-      State *s = new State(cannibal, missionary, RIGHT_BANK);
-      if(!s->isvalid()) {
-        delete[] s;
-        continue;
-      }
-    //   if(search(s, allStates)) {
-    //     continue;
-    //   }
-      nextStates.push_back(s);
+    int bMiss = 0;
+    int bCann = 0;
+
+    vector<State *> nextStates;
+    if(pos == LEFT_BANK){
+        
+        for (int i = 0; i <= missionary; i++)
+        {
+            for (int j = 0; j <= cannibal; j++)
+            {
+                if( i ==0 && j == 0)
+                    continue;
+
+                if (i + j > TotalCapacity)
+                    break;
+                //good state found, so add to agenda
+                bMiss = i;
+                bCann = j;
+                State * child = new State(bMiss , bCann , RIGHT_BANK);
+                child->setParent(s);
+                nextStates.push_back(child);
+                // addStateToAgenda("_" + stateName++, CurState, nMiss, nCan);
+            }
+        }
+    }
+    else{
+        for (int i = 1; i <= TotalMissionary - missionary; i++)
+        {
+            for (int j = 1; j <= TotalCannibal - cannibal; j++)
+            {
+                if( i ==0 && j == 0)
+                    continue;
+                
+                if (i + j > TotalCapacity)
+                    break;
+                //good state found, so add to agenda
+                bMiss = i;
+                bCann = j;
+                State * child = new State(bMiss , bCann , LEFT_BANK);
+                child->setParent(s);
+                nextStates.push_back(child);
+                // addStateToAgenda("_" + stateName++, CurState, nMiss, nCan);
+            }
+        }
     }
 
-    iter = 2;
-    while (iter > 0 && missionary > 0) {
-      --missionary;
-      --iter;
-      State *s = new State(cannibal, missionary, RIGHT_BANK);
-      if(!s->isvalid()) {
-        delete[] s;
-        continue;
-      }
-    //   if(search(s, allStates)) {
-    //     continue;
-    //   }
-      nextStates.push_back(s);
-    }
-
-    // num_miss = std::get<1>((*startingState).getStateAttr());
-    if(cannibal > 0 && missionary > 0) {
-      State *s = new State(cannibal - 1, missionary - 1, RIGHT_BANK);
-    //   if(s->isvalid() && !search(s, allStates)) {
-      if(s->isvalid()) {
+    return nextStates;
+    /*
+        int iter = 2;
+        while (iter > 0 && cannibal > 0) {
+        --cannibal;
+        --iter;
+        State *s = new State(cannibal, missionary, RIGHT_BANK);
+        if(!s->isvalid()) {
+            delete[] s;
+            continue;
+        }
+        //   if(search(s, allStates)) {
+        //     continue;
+        //   }
         nextStates.push_back(s);
-      } 
-      else {
-        delete[] s;
-      }
+        }
+
+        iter = 2;
+        while (iter > 0 && missionary > 0) {
+        --missionary;
+        --iter;
+        State *s = new State(cannibal, missionary, RIGHT_BANK);
+        if(!s->isvalid()) {
+            delete[] s;
+            continue;
+        }
+        //   if(search(s, allStates)) {
+        //     continue;
+        //   }
+        nextStates.push_back(s);
+        }
+
+        // num_miss = std::get<1>((*startingState).getStateAttr());
+        if(cannibal > 0 && missionary > 0) {
+        State *s = new State(cannibal - 1, missionary - 1, RIGHT_BANK);
+        //   if(s->isvalid() && !search(s, allStates)) {
+        if(s->isvalid()) {
+            nextStates.push_back(s);
+        } 
+        else {
+            delete[] s;
+        }
+        }
     }
-}
-else{
+    else{
 
-}
-
+    }
+    */
 
 }
 
