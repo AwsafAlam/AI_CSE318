@@ -165,8 +165,8 @@ vector<State *> Graph::expand(State * s){
                     continue;
 
                 State * child = new State(bMiss , bCann , RIGHT_BANK);
-                // if(child->isvalid() && !searchClosedList(child)){
-                if(child->isvalid()){
+                if(child->isvalid() && !searchClosedList(child)){
+                // if(child->isvalid()){
                 
                     child->setParent(s);
                     child->setDistance(s->getDistance()+1);
@@ -203,8 +203,8 @@ vector<State *> Graph::expand(State * s){
                     continue;
 
                 State * child = new State(bMiss , bCann , LEFT_BANK);
-                // if(child->isvalid()  && !searchClosedList(child)){
-                if(child->isvalid()){
+                if(child->isvalid()  && !searchClosedList(child)){
+                // if(child->isvalid()){
                 
                     child->setParent(s);
                     child->setDistance(s->getDistance() + 1);
