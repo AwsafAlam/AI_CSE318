@@ -111,7 +111,8 @@ int Graph::bfs(State * s){
 
     }
 
-    return k;
+    myfile<<"Solution not possible"<<endl;
+    return -1;
 }
 
 bool Graph::searchClosedList(State * s){
@@ -148,13 +149,25 @@ vector<State *> Graph::expand(State * s){
                 // if( i ==0 && j == 0)
                 //     continue;
 
-                if ((missionary - i) + (cannibal - j) > TotalCapacity || ((missionary - i) + (cannibal - j) ) == 0 )
+                // if ((missionary - i) + (cannibal - j) > TotalCapacity || ((missionary - i) + (cannibal - j) ) == 0 )
+                //     continue;
+                
+                if ((missionary - i) + (cannibal - j) > TotalCapacity )
                     continue;
                 
-                bMiss = i;
+                bMiss = i; //Remaining on left bank
                 bCann = j;
+
+                int rightM = TotalMissionary - bMiss;
+                int rightC = TotalCannibal - bCann;
+                //printf("Right bank: (%d,%d)\n",rightM , rightC);
+                if( rightC > rightM && rightM > 0 )
+                    continue;
+
                 State * child = new State(bMiss , bCann , RIGHT_BANK);
-                if(child->isvalid() && !searchClosedList(child)){
+                // if(child->isvalid() && !searchClosedList(child)){
+                if(child->isvalid()){
+                
                     child->setParent(s);
                     child->setDistance(s->getDistance()+1);
                     nextStates.push_back(child);
@@ -182,8 +195,17 @@ vector<State *> Graph::expand(State * s){
                 //i , j = no. of cann/missionary moved to boat
                 bMiss = missionary + i;
                 bCann = cannibal + j;
+
+                int rightM = TotalMissionary - missionary - i;
+                int rightC = TotalCannibal - cannibal - j;
+                //printf("Right bank: (%d,%d)\n",rightM , rightC);
+                if( rightC > rightM && rightM > 0 )
+                    continue;
+
                 State * child = new State(bMiss , bCann , LEFT_BANK);
-                if(child->isvalid()  && !searchClosedList(child)){
+                // if(child->isvalid()  && !searchClosedList(child)){
+                if(child->isvalid()){
+                
                     child->setParent(s);
                     child->setDistance(s->getDistance() + 1);
                     nextStates.push_back(child);
