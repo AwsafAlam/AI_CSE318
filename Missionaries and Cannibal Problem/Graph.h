@@ -25,6 +25,7 @@ public:
 
     bool solvable();
     int bfs(State * s);
+    bool searchClosedList(State * s);
     int dfs(State * s);
     void dfsVisit(State * s);
     vector<State *> expand(State * s);    
@@ -49,6 +50,7 @@ bool Graph::solvable(){
 int Graph::bfs(State * s){
     
     int k=1;
+    s->setParent(NULL);
     openlist.push_back(s); //color[source] = GREY;
 
     //dist[source] = 0 ; -> distance covered
@@ -61,10 +63,10 @@ int Graph::bfs(State * s){
 
         vector<State *> nextState = expand(uncovered);
         uncovered->setChildState(nextState);
-        uncovered->printState();
+        // uncovered->printState();
         printf("\n --> ");
 
-        myfile<<" ("<<uncovered->getMissionary()<<","<<uncovered->getCannibal()<<","<<uncovered->getSide()<<") ";    
+        myfile<<" ("<<uncovered->getMissionary()<<","<<uncovered->getCannibal()<<","<<uncovered->getSide()<<") Dist: "<<uncovered->getDistance();    
 
         myfile << "\n --> ";
 
@@ -79,8 +81,18 @@ int Graph::bfs(State * s){
             myfile<<" ("<<visit->getMissionary()<<","<<visit->getCannibal()<<","<<visit->getSide()<<") ";    
             
             if(visit->isvalid()){
+                // visit->setDistance(visit->getParent()->getDistance() + 1);
+
                 if(visit->isGoal()){
-                    return k;
+                    myfile<<"\nBFS dist : "<<visit->getDistance()<<endl;
+                    myfile<<"Path : ";
+                    State * temp = visit->getParent(); 
+                    while(temp != NULL){
+                        myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                        temp = temp->getParent();
+                    }
+
+                    return visit->getDistance();
                 }
                 else{
                     openlist.push_back(visit);
@@ -90,18 +102,9 @@ int Graph::bfs(State * s){
             }
 
         }
-        printf("\n -------------------------\n");
+        // printf("\n -------------------------\n");
         myfile<<"\n -------------------------\n";
-        // for(int i=0; i< adjList[source].getLength() ; i++){
-        //     int idx = adjList[source].getItem(i);
-        //     if(color[idx]== 1 ){
-        //         color[idx] = 2;
-        //         dist[idx] = k;
-        //         q.enqueue(idx);
-        //         parent[idx] = source;
-        //         flag = false;
-        //     }
-        // }
+        
         if(!flag){
             k++;
         }
@@ -109,6 +112,21 @@ int Graph::bfs(State * s){
     }
 
     return k;
+}
+
+bool Graph::searchClosedList(State * s){
+
+    
+    for(int i = 0; i < closelist.size(); i++)
+    {
+        /* code */
+        if(closelist[i]->getCannibal() == s->getCannibal() && closelist[i]->getMissionary() == s->getMissionary() && closelist[i]->getSide() == s->getSide()){
+            return true;
+        }
+    }
+    
+
+    return false;
 }
 
 vector<State *> Graph::expand(State * s){
@@ -127,17 +145,18 @@ vector<State *> Graph::expand(State * s){
         {
             for (int j = 0; j <= cannibal ; j++)
             {
-                if( i ==0 && j == 0)
-                    continue;
+                // if( i ==0 && j == 0)
+                //     continue;
 
                 if ((missionary - i) + (cannibal - j) > TotalCapacity || ((missionary - i) + (cannibal - j) ) == 0 )
                     continue;
-                //good state found, so add to agenda
+                
                 bMiss = i;
                 bCann = j;
                 State * child = new State(bMiss , bCann , RIGHT_BANK);
-                if(child->isvalid()){
+                if(child->isvalid() && !searchClosedList(child)){
                     child->setParent(s);
+                    child->setDistance(s->getDistance()+1);
                     nextStates.push_back(child);
                 }
                 else{
@@ -147,21 +166,26 @@ vector<State *> Graph::expand(State * s){
         }
     }
     else{
-        for (int i = 0; i <=  missionary; i++) //Total - miss in other bank
+        for (int i = 0; i <= TotalMissionary - missionary; i++) //Total - miss in other bank
         {
-            for (int j = 0; j <=  cannibal; j++)
+            for (int j = 0; j <= TotalCannibal - cannibal; j++)
             {
                 if( i ==0 && j == 0)
                     continue;
                 
-                if ((missionary - i) + (cannibal - j) > TotalCapacity || ((missionary - i) + (cannibal - j) ) == 0 )
+                // if ((missionary - i) + (cannibal - j) > TotalCapacity || ((missionary - i) + (cannibal - j) ) == 0 )
+                //     continue;
+                
+                if ( i+j > TotalCapacity)
                     continue;
-                //good state found, so add to agenda
-                bMiss = i;
-                bCann = j;
+                
+                //i , j = no. of cann/missionary moved to boat
+                bMiss = missionary + i;
+                bCann = cannibal + j;
                 State * child = new State(bMiss , bCann , LEFT_BANK);
-                if(child->isvalid()){
+                if(child->isvalid()  && !searchClosedList(child)){
                     child->setParent(s);
+                    child->setDistance(s->getDistance() + 1);
                     nextStates.push_back(child);
                 }
                 else{
