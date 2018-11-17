@@ -1,3 +1,5 @@
+
+#include<bits/stdc++.h>
 #include<stdio.h>
 #include<iostream>
 #include <vector>
@@ -12,7 +14,13 @@ using namespace std;
 #define LEFT_BANK 1
 #define RIGHT_BANK 0
 
+double diffclock( clock_t clock1, clock_t clock2 ) {
 
+    double diffticks = clock2 - clock1;
+    double diffms    = diffticks / ( CLOCKS_PER_SEC  );
+
+    return diffms;
+}
 
 int main(){
 
@@ -32,14 +40,21 @@ int main(){
     State *startState = new State(missionary, cannibal, LEFT_BANK);
     Graph *g = new Graph(missionary, cannibal , boatCap , startState);
     
-    // if(!g->solvable()) {
-    //     cout << "No solution exists ..." << endl;
-    //     return 0;
-    // }
 
-    // cout << "Total paths: " << g->bfs(startState)<<endl; // No, of times boat crossed the river
     // cout << "Total paths: " << g->dfs(startState)<<endl; // No, of times boat crossed the river
+    clock_t start = clock();
+    cout << "Total paths: " << g->bfs(startState)<<endl; // No, of times boat crossed the river
+    
+    clock_t end = clock();
+    cout <<"\nBFS time  "<<diffclock(start,end)<<"\n";
+     
+    start = clock();
+
     g->dfs(startState);
+    
+    end = clock();
+    cout <<"\nDFS TIme:  "<<diffclock(start,end)<<"\n";
+    
     delete g;
     // myfile.close();
 
