@@ -27,7 +27,7 @@ public:
     int bfs(State * s);
     bool searchClosedList(State * s);
     void dfs(State * s);
-    void dfsVisit(State * s);
+    void dfsVisit(State * s , bool flag);
     vector<State *> expand(State * s);    
 };
 
@@ -43,7 +43,7 @@ Graph::Graph(int m, int c , int capacity, State * start)
 
 }
 
-void Graph::dfsVisit(State * source){
+void Graph::dfsVisit(State * source, bool flag){
     // if(color[source] == 3){
     //     return;
     // }
@@ -63,10 +63,20 @@ void Graph::dfsVisit(State * source){
 
     // State * uncovered = openlist.front();
     // openlist.pop_back();
-    if(source->getDistance() == 10000){
+    if(flag || source->isGoal())
         return;
+    for(int i = 0; i < openlist.size(); i++)
+    {
+        /* code */
+        if(openlist[i]->getCannibal() == source->getCannibal() && openlist[i]->getMissionary() == source->getMissionary() && openlist[i]->getSide() == source->getSide()){
+            return;
+        }
     }
-    
+
+    // if(source->getDistance() == 10000){
+    //     return;
+    // }
+
     openlist.push_back(source);
     vector<State *> childState = expand(source);
     source->setChildState(childState);
@@ -77,10 +87,25 @@ void Graph::dfsVisit(State * source){
 
     for( int i =0 ; i< childState.size() ; i++){
     //     // check if not in closed list
-        myfile<<" ("<<childState[i]->getMissionary()<<","<<childState[i]->getCannibal()<<","<<childState[i]->getSide()<<") ";   
-        dfsVisit(childState[i]);
+        myfile<<" ("<<childState[i]->getMissionary()<<","<<childState[i]->getCannibal()<<","<<childState[i]->getSide()<<") ";  
+        if(childState[i]->isGoal()){
+        
+            cout<<"\nDFS dist : "<<childState[i]->getDistance()<<endl;
+            cout<<"Path : ";
+            State * temp = childState[i]->getParent(); 
+            while(temp != NULL){
+                cout<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                temp = temp->getParent();
+            }
+            // Flag goal. if(flag == goal ) return;
+            flag = true;
+            // return;
+            dfsVisit(childState[i], flag);
+
+        } 
+        dfsVisit(childState[i], flag);
     }
-    
+    openlist.pop_back();
     closelist.push_back(source);
 
     
@@ -100,7 +125,7 @@ void Graph::dfs(State * source)
     // vector<State *> nextState = expand(source);
     // source->setChildState(nextState);
 
-    dfsVisit(source);
+    dfsVisit(source , false);
 
     // for(int i = 0; i<nVertices ; i++){
     //     if(color[i] == WHITE){
