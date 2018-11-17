@@ -26,7 +26,7 @@ public:
     bool solvable();
     int bfs(State * s);
     bool searchClosedList(State * s);
-    int dfs(State * s);
+    void dfs(State * s);
     void dfsVisit(State * s);
     vector<State *> expand(State * s);    
 };
@@ -43,8 +43,74 @@ Graph::Graph(int m, int c , int capacity, State * start)
 
 }
 
-bool Graph::solvable(){
-    return true;
+void Graph::dfsVisit(State * source){
+    // if(color[source] == 3){
+    //     return;
+    // }
+    // discovery[source] = count;
+    // printf("%d ",source);
+    // color[source] = 2;
+    // for( int i = 0 ; i<adjList[source].getLength() ; i++){
+    //     int idx = adjList[source].getItem(i);
+    //     if(color[idx]== 1){
+    //         count++;
+    //         visit(idx);
+    //     }
+    // }
+    // color[source] = 3;
+    // count++;
+    // finish[source] = count;
+
+    // State * uncovered = openlist.front();
+    // openlist.pop_back();
+    if(source->getDistance() == 10000){
+        return;
+    }
+    
+    openlist.push_back(source);
+    vector<State *> childState = expand(source);
+    source->setChildState(childState);
+    
+    myfile<<" ("<<source->getMissionary()<<","<<source->getCannibal()<<","<<source->getSide()<<") Dist: "<<source->getDistance();    
+
+    myfile << "\n --> ";
+
+    for( int i =0 ; i< childState.size() ; i++){
+    //     // check if not in closed list
+        myfile<<" ("<<childState[i]->getMissionary()<<","<<childState[i]->getCannibal()<<","<<childState[i]->getSide()<<") ";   
+        dfsVisit(childState[i]);
+    }
+    
+    closelist.push_back(source);
+
+    
+    return;
+
+}
+
+void Graph::dfs(State * source)
+{
+    int count = 1;
+    
+    // Initialized vertices
+    openlist.erase(openlist.begin() , openlist.begin()+ openlist.size());
+    closelist.erase(closelist.begin() , closelist.begin()+ closelist.size());
+    
+    // openlist.push_back(source);
+    // vector<State *> nextState = expand(source);
+    // source->setChildState(nextState);
+
+    dfsVisit(source);
+
+    // for(int i = 0; i<nVertices ; i++){
+    //     if(color[i] == WHITE){
+    //         visit(i);
+    //     }
+    // }
+//    for(int i = 0; i<nVertices ; i++){
+//     printf("Node: %d ; Color: %d ; Starting time : %d ; Finish : %d\n",i,color[i],discovery[i],finish[i] );
+//    }
+
 }
 
 int Graph::bfs(State * s){

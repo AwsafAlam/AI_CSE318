@@ -37,7 +37,9 @@ int main(){
     //     return 0;
     // }
 
-    cout << "Total paths: " << g->bfs(startState)<<endl; // No, of times boat crossed the river
+    // cout << "Total paths: " << g->bfs(startState)<<endl; // No, of times boat crossed the river
+    // cout << "Total paths: " << g->dfs(startState)<<endl; // No, of times boat crossed the river
+    g->dfs(startState);
     delete g;
     // myfile.close();
 

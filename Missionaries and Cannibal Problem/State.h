@@ -24,6 +24,7 @@ public:
     int getMissionary(){return missionary;}
     int getSide(){return side;}
     void setChildState(vector<State *> s){childStates = s;}
+    vector<State *> getChildState(){return childStates;}
     void setParent(State * s){parent = s;}
     void setDistance(int d){distance = d;}
     int getDistance(){return distance;}
