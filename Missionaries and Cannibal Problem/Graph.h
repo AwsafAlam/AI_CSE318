@@ -44,25 +44,7 @@ Graph::Graph(int m, int c , int capacity, State * start)
 }
 
 void Graph::dfsVisit(State * source, bool flag){
-    // if(color[source] == 3){
-    //     return;
-    // }
-    // discovery[source] = count;
-    // printf("%d ",source);
-    // color[source] = 2;
-    // for( int i = 0 ; i<adjList[source].getLength() ; i++){
-    //     int idx = adjList[source].getItem(i);
-    //     if(color[idx]== 1){
-    //         count++;
-    //         visit(idx);
-    //     }
-    // }
-    // color[source] = 3;
-    // count++;
-    // finish[source] = count;
-
-    // State * uncovered = openlist.front();
-    // openlist.pop_back();
+    
     if(flag || source->isGoal())
         return;
     for(int i = 0; i < openlist.size(); i++)
@@ -73,7 +55,7 @@ void Graph::dfsVisit(State * source, bool flag){
         }
     }
 
-    // if(source->getDistance() == 10000){
+    // if(source->getDistance() == 10000){ //Cut - off limit specified
     //     return;
     // }
 
@@ -86,15 +68,15 @@ void Graph::dfsVisit(State * source, bool flag){
     myfile << "\n --> ";
 
     for( int i =0 ; i< childState.size() ; i++){
-    //     // check if not in closed list
+        
         myfile<<" ("<<childState[i]->getMissionary()<<","<<childState[i]->getCannibal()<<","<<childState[i]->getSide()<<") ";  
         if(childState[i]->isGoal()){
         
-            cout<<"\nDFS dist : "<<childState[i]->getDistance()<<endl;
-            cout<<"Path : ";
+            myfile<<"\nDFS dist : "<<childState[i]->getDistance()<<endl;
+            myfile<<"Path : ";
             State * temp = childState[i]->getParent(); 
             while(temp != NULL){
-                cout<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
                 temp = temp->getParent();
             }
             // Flag goal. if(flag == goal ) return;
@@ -121,20 +103,7 @@ void Graph::dfs(State * source)
     openlist.erase(openlist.begin() , openlist.begin()+ openlist.size());
     closelist.erase(closelist.begin() , closelist.begin()+ closelist.size());
     
-    // openlist.push_back(source);
-    // vector<State *> nextState = expand(source);
-    // source->setChildState(nextState);
-
     dfsVisit(source , false);
-
-    // for(int i = 0; i<nVertices ; i++){
-    //     if(color[i] == WHITE){
-    //         visit(i);
-    //     }
-    // }
-//    for(int i = 0; i<nVertices ; i++){
-//     printf("Node: %d ; Color: %d ; Starting time : %d ; Finish : %d\n",i,color[i],discovery[i],finish[i] );
-//    }
 
 }
 
@@ -155,7 +124,7 @@ int Graph::bfs(State * s){
         vector<State *> nextState = expand(uncovered);
         uncovered->setChildState(nextState);
         // uncovered->printState();
-        printf("\n --> ");
+        // printf("\n --> ");
 
         myfile<<" ("<<uncovered->getMissionary()<<","<<uncovered->getCannibal()<<","<<uncovered->getSide()<<") Dist: "<<uncovered->getDistance();    
 
@@ -168,7 +137,7 @@ int Graph::bfs(State * s){
         while(!nextState.empty()){
             State * visit = nextState.front(); //grey node (bfs)
             nextState.erase(nextState.begin() , nextState.begin() + 1);
-            visit->printState();
+            //visit->printState();
             myfile<<" ("<<visit->getMissionary()<<","<<visit->getCannibal()<<","<<visit->getSide()<<") ";    
             
             if(visit->isvalid()){

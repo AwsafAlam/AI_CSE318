@@ -43,17 +43,17 @@ int main(){
 
     // cout << "Total paths: " << g->dfs(startState)<<endl; // No, of times boat crossed the river
     clock_t start = clock();
-    cout << "Total paths: " << g->bfs(startState)<<endl; // No, of times boat crossed the river
+    cout << "BFS Total paths: " << g->bfs(startState)<<endl; // No, of times boat crossed the river
     
     clock_t end = clock();
-    cout <<"\nBFS time  "<<diffclock(start,end)<<"\n";
+    cout <<"\nBFS time (ms): "<<diffclock(start,end)<<"\n";
      
     start = clock();
 
     g->dfs(startState);
     
     end = clock();
-    cout <<"\nDFS TIme:  "<<diffclock(start,end)<<"\n";
+    cout <<"\nDFS TIme (ms): "<<diffclock(start,end)<<"\n";
     
     delete g;
     // myfile.close();
