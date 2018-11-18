@@ -16,6 +16,7 @@ class Graph
     State *startState, *goalState;
     vector<State *> openlist;
     vector<State *> closelist;
+    int cutoff, explored;
     ofstream myfile;
 
     int TotalMissionary, TotalCannibal , TotalCapacity;
@@ -39,6 +40,8 @@ Graph::Graph(int m, int c , int capacity, State * start)
     TotalCapacity = capacity;
     goalState = new State(0,0,RIGHT_BANK);
 
+    cutoff = 10000;
+    explored = 0;
     myfile.open ("output.txt");
 
 }
@@ -55,9 +58,10 @@ void Graph::dfsVisit(State * source, bool flag){
         }
     }
 
-    // if(source->getDistance() == 10000){ //Cut - off limit specified
-    //     return;
-    // }
+    if(source->getDistance() == cutoff){ //Cut - off limit specified
+        cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
+        return;
+    }
 
     openlist.push_back(source);
     vector<State *> childState = expand(source);
@@ -98,7 +102,7 @@ void Graph::dfsVisit(State * source, bool flag){
 void Graph::dfs(State * source)
 {
     int count = 1;
-    
+    explored = 0;
     // Initialized vertices
     openlist.erase(openlist.begin() , openlist.begin()+ openlist.size());
     closelist.erase(closelist.begin() , closelist.begin()+ closelist.size());
@@ -109,7 +113,7 @@ void Graph::dfs(State * source)
 
 int Graph::bfs(State * s){
     
-    int k=1;
+    explored = 0;
     s->setParent(NULL);
     openlist.push_back(s); //color[source] = GREY;
 
@@ -145,6 +149,7 @@ int Graph::bfs(State * s){
 
                 if(visit->isGoal()){
                     myfile<<"\nBFS dist : "<<visit->getDistance()<<endl;
+                    myfile<<"Explored: "<<explored<<endl;
                     myfile<<"Path : ";
                     State * temp = visit->getParent(); 
                     while(temp != NULL){
@@ -164,10 +169,14 @@ int Graph::bfs(State * s){
         }
         // printf("\n -------------------------\n");
         myfile<<"\n -------------------------\n";
-        
-        if(!flag){
-            k++;
+        explored++;
+        if(explored == cutoff){
+            cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
+            return -1;
         }
+        // if(!flag){
+        //     k++;
+        // }
 
     }
 

@@ -40,12 +40,12 @@ int main(){
     State *startState = new State(missionary, cannibal, LEFT_BANK);
     Graph *g = new Graph(missionary, cannibal , boatCap , startState);
     
-
-    // cout << "Total paths: " << g->dfs(startState)<<endl; // No, of times boat crossed the river
-    clock_t start = clock();
-    cout << "BFS Total paths: " << g->bfs(startState)<<endl; // No, of times boat crossed the river
+    clock_t start , end;
     
-    clock_t end = clock();
+    start = clock();
+    cout << "BFS : \n" << g->bfs(startState)<<endl; // No, of times boat crossed the river
+    
+    end = clock();
     cout <<"\nBFS time (ms): "<<diffclock(start,end)<<"\n";
      
     start = clock();
