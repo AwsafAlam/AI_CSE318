@@ -27,10 +27,10 @@ int main(){
     // ofstream myfile;
     // myfile.open ("output.txt");
     
-    int missionary ,cannibal , boatCap;
-    printf("Enter number of man and cannibals and boat capacity\n");
+    int missionary ,cannibal , boatCap , cutoff;
+    printf("Enter number of man and cannibals and boat capacity , and cut-off limit\n");
 
-    scanf("%d%d%d", &missionary, &cannibal, &boatCap);
+    scanf("%d%d%d%d", &missionary, &cannibal, &boatCap , &cutoff);
 
     if(missionary > 0 && cannibal > missionary) {
         cout << "No solution exists ..." <<endl;
@@ -38,18 +38,20 @@ int main(){
     }
   
     State *startState = new State(missionary, cannibal, LEFT_BANK);
-    Graph *g = new Graph(missionary, cannibal , boatCap , startState);
+    Graph *g = new Graph(missionary, cannibal , boatCap , startState , cutoff);
     
     clock_t start , end;
     
     start = clock();
-    cout << "BFS : \n" << g->bfs(startState)<<endl; // No, of times boat crossed the river
+    cout << "BFS : \n";
+    g->bfs(startState);  // No, of times boat crossed the river
     
     end = clock();
-    cout <<"\nBFS time (ms): "<<diffclock(start,end)<<"\n";
+    cout <<"\nBFS time (ms): "<<diffclock(start,end)<<"\n\n";
      
     start = clock();
 
+    cout << "DFS : \n";
     g->dfs(startState);
     
     end = clock();

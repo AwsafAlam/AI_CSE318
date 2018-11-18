@@ -21,163 +21,280 @@ class Graph
 
     int TotalMissionary, TotalCannibal , TotalCapacity;
 public:
-    Graph(int m, int c , int capacity, State * start);
+    Graph(int m, int c , int capacity, State * start,int cut);
     ~Graph();
 
     bool solvable();
     int bfs(State * s);
     bool searchClosedList(State * s);
-    void dfs(State * s);
-    void dfsVisit(State * s , bool flag);
+    int dfs(State * s);
+    void dfsVisit(State * s);
     vector<State *> expand(State * s);    
 };
 
-Graph::Graph(int m, int c , int capacity, State * start)
+Graph::Graph(int m, int c , int capacity, State * start,int cut)
 {
     startState = start;
+
     TotalMissionary = m;
     TotalCannibal = c;
     TotalCapacity = capacity;
+    cutoff = cut;
     goalState = new State(0,0,RIGHT_BANK);
 
-    cutoff = 10000;
     explored = 0;
     myfile.open ("output.txt");
 
 }
 
-void Graph::dfsVisit(State * source, bool flag){
+void Graph::dfsVisit(State * source){
     
-    if(flag || source->isGoal())
-        return;
-    for(int i = 0; i < openlist.size(); i++)
-    {
-        /* code */
-        if(openlist[i]->getCannibal() == source->getCannibal() && openlist[i]->getMissionary() == source->getMissionary() && openlist[i]->getSide() == source->getSide()){
-            return;
-        }
-    }
+    while(!openlist.empty()){
 
-    if(source->getDistance() == cutoff){ //Cut - off limit specified
-        cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
-        return;
-    }
-
-    openlist.push_back(source);
-    vector<State *> childState = expand(source);
-    source->setChildState(childState);
-    
-    myfile<<" ("<<source->getMissionary()<<","<<source->getCannibal()<<","<<source->getSide()<<") Dist: "<<source->getDistance();    
-
-    myfile << "\n --> ";
-
-    for( int i =0 ; i< childState.size() ; i++){
+        // if(flag || source->isGoal())
+        //     return;
         
-        myfile<<" ("<<childState[i]->getMissionary()<<","<<childState[i]->getCannibal()<<","<<childState[i]->getSide()<<") ";  
-        if(childState[i]->isGoal()){
-        
-            myfile<<"\nDFS dist : "<<childState[i]->getDistance()<<endl;
-            myfile<<"Path : ";
-            State * temp = childState[i]->getParent(); 
-            while(temp != NULL){
-                myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
-                temp = temp->getParent();
+        for(int i = 0; i < openlist.size(); i++)
+        {
+            /* code */
+            if(openlist[i]->getCannibal() == source->getCannibal() && openlist[i]->getMissionary() == source->getMissionary() && openlist[i]->getSide() == source->getSide()){
+                return;
             }
-            // Flag goal. if(flag == goal ) return;
-            flag = true;
-            // return;
-            dfsVisit(childState[i], flag);
+        }
 
-        } 
-        dfsVisit(childState[i], flag);
+        if(source->getDistance() == cutoff){ //Cut - off limit specified
+            cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
+            return;     
+        }
+
+        openlist.push_back(source);
+        vector<State *> childState = expand(source);
+        source->setChildState(childState);
+        
+        myfile<<" ("<<source->getMissionary()<<","<<source->getCannibal()<<","<<source->getSide()<<") Dist: "<<source->getDistance();    
+
+        myfile << "\n --> ";
+
+        for( int i =0 ; i< childState.size() ; i++){
+            
+            myfile<<" ("<<childState[i]->getMissionary()<<","<<childState[i]->getCannibal()<<","<<childState[i]->getSide()<<") ";  
+            if(childState[i]->isGoal()){
+            
+                myfile<<"\nDFS dist : "<<childState[i]->getDistance()<<endl;
+                myfile<<"Path : ";
+                State * temp = childState[i]->getParent(); 
+                while(temp != NULL){
+                    myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                    temp = temp->getParent();
+                }
+                // Flag goal. if(flag == goal ) return;
+                // flag = true;
+                // return;
+                dfsVisit(childState[i]);
+
+            } 
+            dfsVisit(childState[i]);
+        }
+        openlist.pop_back();
+        closelist.push_back(source);
+
     }
-    openlist.pop_back();
-    closelist.push_back(source);
-
+    
     
     return;
 
 }
 
-void Graph::dfs(State * source)
+int Graph::dfs(State * s)
 {
-    int count = 1;
     explored = 0;
+    myfile<<"\n\n\n---------------------DFS Starting ------------------------ \n\n";
     // Initialized vertices
     openlist.erase(openlist.begin() , openlist.begin()+ openlist.size());
     closelist.erase(closelist.begin() , closelist.begin()+ closelist.size());
     
-    dfsVisit(source , false);
+    s->setParent(NULL);
+    openlist.push_back(s); //color[source] = GREY;
+
+    while(!openlist.empty())
+    {
+        State * uncovered = openlist.back();
+        openlist.pop_back();
+
+        if(uncovered->isGoal()){
+            myfile<<"\nDFS dist : "<<uncovered->getDistance()<<endl;
+            myfile<<"Explored: "<<explored<<endl;
+            myfile<<"Path : ";
+            
+            cout<<"\nDFS dist : "<<uncovered->getDistance()<<endl;
+            cout<<"Explored: "<<explored<<endl;
+            cout<<"Path : ";
+            
+            State * temp = uncovered->getParent(); 
+            while(temp != NULL){
+                myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                cout<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                temp = temp->getParent();
+            }
+
+            return uncovered->getDistance();
+        }
+        else{
+        
+            vector<State *> nextState = expand(uncovered);
+            uncovered->setChildState(nextState);
+            
+            // uncovered->printState();
+            // printf("\n --> ");
+            myfile<<" ("<<uncovered->getMissionary()<<","<<uncovered->getCannibal()<<","<<uncovered->getSide()<<") Dist: "<<uncovered->getDistance();    
+            myfile << "\n --> ";
+
+            closelist.push_back(uncovered);
+
+            while(!nextState.empty()){
+
+                State * visit = nextState.front(); //grey node (bfs)
+                nextState.erase(nextState.begin() , nextState.begin() + 1);
+            
+                //visit->printState();
+                myfile<<" ("<<visit->getMissionary()<<","<<visit->getCannibal()<<","<<visit->getSide()<<") ";    
+            
+                if(visit->isvalid()){
+            
+                    if(visit->isGoal()){
+                    
+                        myfile<<"\nDFS dist : "<<visit->getDistance()<<endl;
+                        myfile<<"Explored: "<<explored<<endl;
+                        myfile<<"Path : ";
+                        
+                        cout<<"\nDFS dist : "<<visit->getDistance()<<endl;
+                        cout<<"Explored: "<<explored<<endl;
+                        cout<<"Path : ";
+                        
+                        State * temp = visit->getParent(); 
+                        while(temp != NULL){
+                            myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                            cout<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                            temp = temp->getParent();
+                        }
+
+                    return visit->getDistance();
+                    }
+                    else{
+                        openlist.push_back(visit);
+                    }
+                }
+
+            }
+            // printf("\n -------------------------\n");
+            myfile<<"\n -------------------------\n";
+            explored++;
+            if(explored == cutoff){
+                cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
+                return -1;
+            }
+            
+        }
+        
+
+    }
+
+    myfile<<"Solution not possible"<<endl;
+    return -1;
 
 }
 
 int Graph::bfs(State * s){
     
+    myfile<<"\n\n\n---------------------BFS Starting ------------------------ \n\n";
+
     explored = 0;
     s->setParent(NULL);
     openlist.push_back(s); //color[source] = GREY;
 
-    //dist[source] = 0 ; -> distance covered
-    // q.enqueue(source);
     while(!openlist.empty())
     {
         bool flag = true;
         State * uncovered = openlist.front();
         openlist.erase(openlist.begin() , openlist.begin() + 1);
 
-        vector<State *> nextState = expand(uncovered);
-        uncovered->setChildState(nextState);
-        // uncovered->printState();
-        // printf("\n --> ");
-
-        myfile<<" ("<<uncovered->getMissionary()<<","<<uncovered->getCannibal()<<","<<uncovered->getSide()<<") Dist: "<<uncovered->getDistance();    
-
-        myfile << "\n --> ";
-
-        // printf("( %d,%d,%d ) --",uncovered->getMissionary(),uncovered->getCannibal(),uncovered->getSide());
-        closelist.push_back(uncovered);  //color[source]= BLACK;
-        
-        
-        while(!nextState.empty()){
-            State * visit = nextState.front(); //grey node (bfs)
-            nextState.erase(nextState.begin() , nextState.begin() + 1);
-            //visit->printState();
-            myfile<<" ("<<visit->getMissionary()<<","<<visit->getCannibal()<<","<<visit->getSide()<<") ";    
+        if(uncovered->isGoal()){
+            myfile<<"\nDFS dist : "<<uncovered->getDistance()<<endl;
+            myfile<<"Explored: "<<explored<<endl;
+            myfile<<"Path : ";
             
-            if(visit->isvalid()){
+            cout<<"\nDFS dist : "<<uncovered->getDistance()<<endl;
+            cout<<"Explored: "<<explored<<endl;
+            cout<<"Path : ";
+            
+            State * temp = uncovered->getParent(); 
+            while(temp != NULL){
+                myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                cout<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                temp = temp->getParent();
+            }
+
+            return uncovered->getDistance();
+        }
+        else{
+
+            vector<State *> nextState = expand(uncovered);
+            uncovered->setChildState(nextState);
+            // uncovered->printState();
+            // printf("\n --> ");
+
+            myfile<<" ("<<uncovered->getMissionary()<<","<<uncovered->getCannibal()<<","<<uncovered->getSide()<<") Dist: "<<uncovered->getDistance();    
+            myfile << "\n --> ";
+
+            closelist.push_back(uncovered);  //color[source]= BLACK;
+        
+            while(!nextState.empty()){
+            
+                State * visit = nextState.front(); //grey node (bfs)
+                nextState.erase(nextState.begin() , nextState.begin() + 1);
+                //visit->printState();
+                myfile<<" ("<<visit->getMissionary()<<","<<visit->getCannibal()<<","<<visit->getSide()<<") ";    
+            
+                if(visit->isvalid()){
                 // visit->setDistance(visit->getParent()->getDistance() + 1);
 
-                if(visit->isGoal()){
-                    myfile<<"\nBFS dist : "<<visit->getDistance()<<endl;
-                    myfile<<"Explored: "<<explored<<endl;
-                    myfile<<"Path : ";
-                    State * temp = visit->getParent(); 
-                    while(temp != NULL){
-                        myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
-                        temp = temp->getParent();
-                    }
+                    if(visit->isGoal()){
+                        myfile<<"\nBFS dist : "<<visit->getDistance()<<endl;
+                        myfile<<"Explored: "<<explored<<endl;
+                        myfile<<"Path : ";
+
+                        cout<<"\nBFS dist : "<<visit->getDistance()<<endl;
+                        cout<<"Explored: "<<explored<<endl;
+                        cout<<"Path : ";
+                    
+                        State * temp = visit->getParent(); 
+                        while(temp != NULL){
+                            myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                            cout<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";    
+                            
+                            temp = temp->getParent();
+                        }
 
                     return visit->getDistance();
-                }
+                    }
                 else{
                     openlist.push_back(visit);
 
-                    flag = false;
                 }
+                }
+
             }
-
+            // printf("\n -------------------------\n");
+            myfile<<"\n -------------------------\n";
+            explored++;
+            if(explored == cutoff){
+                cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
+                cout<<"Depth: "<<uncovered->getDistance()<<endl;
+                return -1;
+            }
+            
         }
-        // printf("\n -------------------------\n");
-        myfile<<"\n -------------------------\n";
-        explored++;
-        if(explored == cutoff){
-            cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
-            return -1;
-        }
-        // if(!flag){
-        //     k++;
-        // }
-
+        
     }
 
     myfile<<"Solution not possible"<<endl;
