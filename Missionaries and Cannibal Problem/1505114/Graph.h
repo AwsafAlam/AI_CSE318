@@ -329,10 +329,8 @@ vector<State *> Graph::expand(State * s){
     if(pos == LEFT_BANK){
         
         for (int i = 0; i <= missionary; i++)
-        // for (int i = missionary; i >= 0; i--)
         {
             for (int j = 0; j <= cannibal ; j++)
-            // for (int j = cannibal; j >= 0 ; j--)
             {
                 // if( i ==0 && j == 0)
                 //     continue;
