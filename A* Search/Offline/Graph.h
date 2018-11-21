@@ -2,7 +2,6 @@
 #include<iostream>
 #include <vector>
 #include <fstream>
-// #include "BFS_DFS_adjList.h"
 #include "State.h"
 
 using namespace std;
@@ -150,10 +149,11 @@ int Graph::dfs(State * s)
             myfile << "\n --> ";
 
             closelist.push_back(uncovered);
+            explored++;
 
             while(!nextState.empty()){
 
-                State * visit = nextState.front(); //grey node (bfs)
+                State * visit = nextState.front();
                 nextState.erase(nextState.begin() , nextState.begin() + 1);
             
                 //visit->printState();
@@ -188,7 +188,6 @@ int Graph::dfs(State * s)
             }
             // printf("\n -------------------------\n");
             myfile<<"\n -------------------------\n";
-            explored++;
             if(explored == cutoff){
                 cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
                 return -1;
@@ -219,11 +218,11 @@ int Graph::bfs(State * s){
         openlist.erase(openlist.begin() , openlist.begin() + 1);
 
         if(uncovered->isGoal()){
-            myfile<<"\nDFS dist : "<<uncovered->getDistance()<<endl;
+            myfile<<"\nBFS dist : "<<uncovered->getDistance()<<endl;
             myfile<<"Explored: "<<explored<<endl;
             myfile<<"Path : ";
             
-            cout<<"\nDFS dist : "<<uncovered->getDistance()<<endl;
+            cout<<"\nBFS dist : "<<uncovered->getDistance()<<endl;
             cout<<"Explored: "<<explored<<endl;
             cout<<"Path : ";
             
@@ -247,6 +246,7 @@ int Graph::bfs(State * s){
             myfile << "\n --> ";
 
             closelist.push_back(uncovered);  //color[source]= BLACK;
+            explored++;
         
             while(!nextState.empty()){
             
@@ -286,7 +286,6 @@ int Graph::bfs(State * s){
             }
             // printf("\n -------------------------\n");
             myfile<<"\n -------------------------\n";
-            explored++;
             if(explored == cutoff){
                 cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
                 cout<<"Depth: "<<uncovered->getDistance()<<endl;
@@ -329,8 +328,10 @@ vector<State *> Graph::expand(State * s){
     if(pos == LEFT_BANK){
         
         for (int i = 0; i <= missionary; i++)
+        // for (int i = missionary; i >= 0; i--)
         {
             for (int j = 0; j <= cannibal ; j++)
+            // for (int j = cannibal; j >= 0 ; j--)
             {
                 // if( i ==0 && j == 0)
                 //     continue;

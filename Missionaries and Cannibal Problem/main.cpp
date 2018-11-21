@@ -23,9 +23,6 @@ double diffclock( clock_t clock1, clock_t clock2 ) {
 }
 
 int main(){
-
-    // ofstream myfile;
-    // myfile.open ("output.txt");
     
     int missionary ,cannibal , boatCap , cutoff;
     printf("Enter number of man and cannibals and boat capacity , and cut-off limit\n");
@@ -44,7 +41,7 @@ int main(){
     
     start = clock();
     cout << "BFS : \n";
-    g->bfs(startState);  // No, of times boat crossed the river
+    cout<<g->bfs(startState);  // No, of times boat crossed the river
     
     end = clock();
     cout <<"\nBFS time (ms): "<<diffclock(start,end)<<"\n\n";
@@ -52,13 +49,12 @@ int main(){
     start = clock();
 
     cout << "DFS : \n";
-    g->dfs(startState);
+    cout<<g->dfs(startState);
     
     end = clock();
     cout <<"\nDFS TIme (ms): "<<diffclock(start,end)<<"\n";
     
     delete g;
-    // myfile.close();
-
+   
     return 0;
 }
