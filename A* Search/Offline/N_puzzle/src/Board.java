@@ -25,7 +25,26 @@ public class Board {
     }
 
     public boolean isGoal(){
+        int goal[][] = new int[boardSize][boardSize];
+        int i = 1;
+        for(int k =0 ; i< boardSize ; i++){
+            for(int j=0 ; j< boardSize ; j++)
+            {
+                if( i == (boardSize*boardSize)-1)
+                    break;
 
+                goal[k][j] = i;
+                i++;
+            }
+        }
+
+        for(i =0 ; i< boardSize ; i++){
+            for(int j=0 ; j< boardSize ; j++)
+            {
+                if(matrix[i][j] != goal[i][j])
+                    return  false;
+            }
+        }
         return true;
     }
 
