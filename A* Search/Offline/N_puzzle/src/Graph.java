@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,14 +14,17 @@ public class Graph {
     private int boardSize;
     private PriorityQueue<Board> openlist;
     private List<Board> closelist;
+    private FileWriter fileWriter;
 
-    public Graph(Board board, int cutoff, int boardSize) {
+
+    public Graph(Board board, int cutoff, int boardSize) throws IOException {
         this.startboard = board;
         this.cutoff = cutoff;
         this.boardSize = boardSize;
 
-        openlist = new PriorityQueue<>();
+        openlist = new PriorityQueue<>(new BoardComparator());
         closelist = new ArrayList<>();
+        fileWriter = new FileWriter(new File("output.txt"));
     }
 
     public Board getStartboard() {
@@ -38,8 +44,8 @@ public class Graph {
 
     }
 
-    private List<Board> getNeighbours(Board s){
-        List<Board> neighbours = new ArrayList<>();
+    private void getNeighbours(Board s) throws IOException {
+//        List<Board> neighbours = new ArrayList<>();
 
         int mat[][] = s.getMatrix();
         int I_idx=-1, J_idx=-1;
@@ -47,7 +53,7 @@ public class Graph {
         for (int i =0 ; i< boardSize ; i++){
             for (int j =0 ; j< boardSize ; j++) {
                 if (mat[i][j] == 0) {
-                    System.out.println("Found blank. Swapping");
+                    System.out.println("Found blank. Swapping " +i+" " +j+"->"+mat[i][j]);
                     I_idx = i;
                     J_idx = j;
                     break;
@@ -58,27 +64,40 @@ public class Graph {
         for(int i = -1 ; i< 2; i++){
             for (int j = -1; j<2 ; j++){
 
-                if( (I_idx == 0 && i == -1) || (I_idx == boardSize && i==1) ||
-                (J_idx == 0 && j==-1) || (J_idx == boardSize && j==1)){
+//                if( (I_idx == 0 && i == -1) || (I_idx == boardSize && i==1) ||
+//                (J_idx == 0 && j==-1) || (J_idx == boardSize && j==1) ||
+//                ( Math.abs(i) == Math.abs(j) ) || (I_idx +i >= boardSize) ||
+//                (J_idx +j >= boardSize) || (I_idx +i < 0) || (J_idx +j < 0)){
+                if(( Math.abs(i) == Math.abs(j) ) || (I_idx +i >= boardSize) ||
+                (J_idx +j >= boardSize) || (I_idx +i < 0) || (J_idx +j < 0)){
 
                     continue;
                 }
 
-//                int tmp[][] = Arrays.copyOf(mat , boardSize*boardSize);
-                int tmp[][] = mat;
-                int temp = mat[I_idx][J_idx];
+//                int tmp[][] = Arrays.copyOf(s.getMatrix() , boardSize*boardSize);
+                int tmp[][] = new int[boardSize][boardSize];
+                for (int k =0 ; k< mat.length ; k++){
+                    tmp[k] = mat[k];
+                }
+//                System.arraycopy(s.getMatrix(), 0, tmp, 0, s.getMatrix().length);
+
+                System.out.println("("+I_idx+ ","+J_idx+") -> (" +(I_idx+i)+"," +(J_idx+j)+")");
+                fileWriter.write("("+I_idx+ ","+J_idx+") -> (" +(I_idx+i)+"," +(J_idx+j)+")\n");
 
                 tmp[I_idx][J_idx] = tmp[I_idx+i][J_idx+j];
-                tmp[I_idx+i][J_idx+j] = temp;
-                neighbours.add(new Board(boardSize,tmp , s, s.getDistance()+1,0));
+                tmp[I_idx+i][J_idx+j] = 0;
+                Board b = new Board(boardSize,tmp , s, s.getDistance()+1,0);
+                openlist.add(b);
+                fileWriter.write(b.toString() +"\n\n----------------\n");
+//                b.toString();
             }
         }
 
-        return  neighbours;
+//        return  neighbours;
 
     }
 
-    private int bestFirstSearch(Board s, int heuristic){
+    public int bestFirstSearch(Board s, int heuristic) throws IOException {
 
         int expanded = 0;
 
@@ -91,78 +110,46 @@ public class Graph {
             boolean flag = true;
             Board uncovered = openlist.peek();
             openlist.poll();
+            fileWriter.write("Parent -->\n"+uncovered.toString()+"\n<----------->\n");
 
             if(uncovered.isGoal()){
-//                myfile<<"\nBFS dist : "<<uncovered->getDistance()<<endl;
-//                myfile<<"expanded: "<<expanded<<endl;
-//                myfile<<"Path : ";
-//
-//                cout<<"\nBFS dist : "<<uncovered->getDistance()<<endl;
-//                cout<<"expanded: "<<expanded<<endl;
-//                cout<<"Path : ";
+                System.out.println("Goal reached ---------> ");
 
-//                State * temp = uncovered->getParent();
-//                while(temp != null){
-//                    myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";
-//                    cout<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";
-//                    temp = temp->getParent();
-//                }
-//
-//                return uncovered->getDistance();
             }
             else{
 
-                List<Board> nextBoards = getNeighbours(uncovered);
-                // uncovered->printState();
-                // printf("\n --> ");
-
-//                myfile<<" ("<<uncovered->getMissionary()<<","<<uncovered->getCannibal()<<","<<uncovered->getSide()<<") Dist: "<<uncovered->getDistance();
-//                myfile << "\n --> ";
-
+//                List<Board> nextBoards = getNeighbours(uncovered);
+                getNeighbours(uncovered);
                 closelist.add(uncovered);  //color[source]= BLACK;
                 expanded++;
 
-                while(!nextBoards.isEmpty()){
-
-                    Board visit = nextBoards.get(0); //grey node (bfs)
-                    nextBoards.remove(0);
-                    //visit->printState();
-//                    myfile<<" ("<<visit->getMissionary()<<","<<visit->getCannibal()<<","<<visit->getSide()<<") ";
-
-                    if(visit.isSolvable()){
-                        // visit->setDistance(visit->getParent()->getDistance() + 1);
-
-                        if(visit.isGoal()){
-//                            myfile<<"\nBFS dist : "<<visit->getDistance()<<endl;
-//                            myfile<<"expanded: "<<expanded<<endl;
-//                            myfile<<"Path : ";
+//                while(!nextBoards.isEmpty()){
 //
-//                            cout<<"\nBFS dist : "<<visit->getDistance()<<endl;
-//                            cout<<"expanded: "<<expanded<<endl;
-//                            cout<<"Path : ";
+//                    Board visit = nextBoards.get(0); //grey node (bfs)
+//                    nextBoards.remove(0);
 //
-//                            State * temp = visit->getParent();
-//                            while(temp != NULL){
-//                                myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";
-//                                cout<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";
+//                    //System.out.println(visit.toString()+"\n------------------");
+//                    fileWriter.write(visit.toString()+"\n------------------\n");
+//                    if(visit.isSolvable()){
+//                        // visit->setDistance(visit->getParent()->getDistance() + 1);
 //
-//                                temp = temp->getParent();
-//                            }
+//                        if(visit.isGoal()){
+//                            System.out.println("Goal reached ->");
+//                        }
+//                        else{
+//                            openlist.add(visit);
 //
-//                            return visit->getDistance();
-                        }
-                        else{
-                            openlist.add(visit);
-
-                        }
-                    }
-
-                }
+//                        }
+//                    }
+//
+//                }
                 // printf("\n -------------------------\n");
 //                myfile<<"\n -------------------------\n";
+
                 if(expanded == cutoff){
                     System.out.println("Cut-off limit exceeded\nNodes expanded: "+cutoff);
-//                    cout<<"Depth: "<<uncovered->getDistance()<<endl;
+
+                    fileWriter.close();
                     return -1;
                 }
 
@@ -170,7 +157,8 @@ public class Graph {
 
         }
 
-//        myfile<<"Solution not possible"<<endl;
+        System.out.println("Solution not possible");
+        fileWriter.close();
         return -1;
 
     }

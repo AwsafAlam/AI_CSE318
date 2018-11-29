@@ -23,6 +23,7 @@ public class Board {
             }
             tmp += "\n";
         }
+//        System.out.println(tmp);
         return tmp;
     }
 
