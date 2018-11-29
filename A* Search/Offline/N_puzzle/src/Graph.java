@@ -39,6 +39,9 @@ public class Graph {
     }
 
     private void getNeighbours(){
+
+
+
 //        ArrayList<Board> tempneighbors = new ArrayList<Board>();
 //
 ////        assignZeroLoc(); //determines both x and y loc's of the zero

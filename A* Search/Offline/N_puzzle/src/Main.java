@@ -17,26 +17,9 @@ public class Main {
 
         int mat[][] = new int[boardSize][boardSize];
 
-        //mat[0][0] = 1;
-//        int j =0;
-//        while (sc.hasNextLine()){
-//            String line = sc.nextLine();
-//            String val[] = line.split(" ");
-//            if(val.length == 0)
-//                continue;
-//            for(int i = 0 ; i< val.length ; i++){
-//                if(!val[i].equals("")){
-//                    mat[j][i] = Integer.parseInt(val[i]);
-//                    System.out.print((val[i])+" ");
-//                }
-//            }
-//            System.out.println("");
-//            j++;
-//        }
-
         for (int i = 0 ; i< boardSize ; i++){
             for (int j =0; j< boardSize ; j++){
-                mat[i][j] = scanner.nextInt();
+                mat[i][j] = sc.nextInt();
             }
         }
 

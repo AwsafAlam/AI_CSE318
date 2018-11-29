@@ -15,7 +15,7 @@ class Graph
     State *startState, *goalState;
     vector<State *> openlist;
     vector<State *> closelist;
-    int cutoff, explored;
+    int cutoff, expanded;
     ofstream myfile;
 
     int TotalMissionary, TotalCannibal , TotalCapacity;
@@ -41,7 +41,7 @@ Graph::Graph(int m, int c , int capacity, State * start,int cut)
     cutoff = cut;
     goalState = new State(0,0,RIGHT_BANK);
 
-    explored = 0;
+    expanded = 0;
     myfile.open ("output.txt");
 
 }
@@ -62,7 +62,7 @@ void Graph::dfsVisit(State * source){
         }
 
         if(source->getDistance() == cutoff){ //Cut - off limit specified
-            cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
+            cout<<"Cut-off limit exceeded\nNodes expanded: "<<cutoff<<endl;
             return;     
         }
 
@@ -106,7 +106,7 @@ void Graph::dfsVisit(State * source){
 
 int Graph::dfs(State * s)
 {
-    explored = 0;
+    expanded = 0;
     myfile<<"\n\n\n---------------------DFS Starting ------------------------ \n\n";
     // Initialized vertices
     openlist.erase(openlist.begin() , openlist.begin()+ openlist.size());
@@ -122,11 +122,11 @@ int Graph::dfs(State * s)
 
         if(uncovered->isGoal()){
             myfile<<"\nDFS dist : "<<uncovered->getDistance()<<endl;
-            myfile<<"Explored: "<<explored<<endl;
+            myfile<<"expanded: "<<expanded<<endl;
             myfile<<"Path : ";
             
             cout<<"\nDFS dist : "<<uncovered->getDistance()<<endl;
-            cout<<"Explored: "<<explored<<endl;
+            cout<<"expanded: "<<expanded<<endl;
             cout<<"Path : ";
             
             State * temp = uncovered->getParent(); 
@@ -149,7 +149,7 @@ int Graph::dfs(State * s)
             myfile << "\n --> ";
 
             closelist.push_back(uncovered);
-            explored++;
+            expanded++;
 
             while(!nextState.empty()){
 
@@ -164,11 +164,11 @@ int Graph::dfs(State * s)
                     if(visit->isGoal()){
                     
                         myfile<<"\nDFS dist : "<<visit->getDistance()<<endl;
-                        myfile<<"Explored: "<<explored<<endl;
+                        myfile<<"expanded: "<<expanded<<endl;
                         myfile<<"Path : ";
                         
                         cout<<"\nDFS dist : "<<visit->getDistance()<<endl;
-                        cout<<"Explored: "<<explored<<endl;
+                        cout<<"expanded: "<<expanded<<endl;
                         cout<<"Path : ";
                         
                         State * temp = visit->getParent(); 
@@ -188,8 +188,8 @@ int Graph::dfs(State * s)
             }
             // printf("\n -------------------------\n");
             myfile<<"\n -------------------------\n";
-            if(explored == cutoff){
-                cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
+            if(expanded == cutoff){
+                cout<<"Cut-off limit exceeded\nNodes expanded: "<<cutoff<<endl;
                 return -1;
             }
             
@@ -207,7 +207,7 @@ int Graph::bfs(State * s){
     
     myfile<<"\n\n\n---------------------BFS Starting ------------------------ \n\n";
 
-    explored = 0;
+    expanded = 0;
     s->setParent(NULL);
     openlist.push_back(s); //color[source] = GREY;
 
@@ -219,11 +219,11 @@ int Graph::bfs(State * s){
 
         if(uncovered->isGoal()){
             myfile<<"\nBFS dist : "<<uncovered->getDistance()<<endl;
-            myfile<<"Explored: "<<explored<<endl;
+            myfile<<"expanded: "<<expanded<<endl;
             myfile<<"Path : ";
             
             cout<<"\nBFS dist : "<<uncovered->getDistance()<<endl;
-            cout<<"Explored: "<<explored<<endl;
+            cout<<"expanded: "<<expanded<<endl;
             cout<<"Path : ";
             
             State * temp = uncovered->getParent(); 
@@ -246,7 +246,7 @@ int Graph::bfs(State * s){
             myfile << "\n --> ";
 
             closelist.push_back(uncovered);  //color[source]= BLACK;
-            explored++;
+            expanded++;
         
             while(!nextState.empty()){
             
@@ -260,11 +260,11 @@ int Graph::bfs(State * s){
 
                     if(visit->isGoal()){
                         myfile<<"\nBFS dist : "<<visit->getDistance()<<endl;
-                        myfile<<"Explored: "<<explored<<endl;
+                        myfile<<"expanded: "<<expanded<<endl;
                         myfile<<"Path : ";
 
                         cout<<"\nBFS dist : "<<visit->getDistance()<<endl;
-                        cout<<"Explored: "<<explored<<endl;
+                        cout<<"expanded: "<<expanded<<endl;
                         cout<<"Path : ";
                     
                         State * temp = visit->getParent(); 
@@ -286,8 +286,8 @@ int Graph::bfs(State * s){
             }
             // printf("\n -------------------------\n");
             myfile<<"\n -------------------------\n";
-            if(explored == cutoff){
-                cout<<"Cut-off limit exceeded\nNodes Explored: "<<cutoff<<endl;
+            if(expanded == cutoff){
+                cout<<"Cut-off limit exceeded\nNodes expanded: "<<cutoff<<endl;
                 cout<<"Depth: "<<uncovered->getDistance()<<endl;
                 return -1;
             }
@@ -328,10 +328,8 @@ vector<State *> Graph::expand(State * s){
     if(pos == LEFT_BANK){
         
         for (int i = 0; i <= missionary; i++)
-        // for (int i = missionary; i >= 0; i--)
         {
             for (int j = 0; j <= cannibal ; j++)
-            // for (int j = cannibal; j >= 0 ; j--)
             {
                 // if( i ==0 && j == 0)
                 //     continue;

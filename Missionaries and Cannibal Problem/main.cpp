@@ -41,18 +41,21 @@ int main(){
     
     start = clock();
     cout << "BFS : \n";
+    
     cout<<g->bfs(startState);  // No, of times boat crossed the river
     
     end = clock();
     cout <<"\nBFS time (ms): "<<diffclock(start,end)<<"\n\n";
-     
+    
     start = clock();
-
+    startState->setDistance(0);
+    
     cout << "DFS : \n";
     cout<<g->dfs(startState);
     
     end = clock();
     cout <<"\nDFS TIme (ms): "<<diffclock(start,end)<<"\n";
+    
     
     delete g;
    
