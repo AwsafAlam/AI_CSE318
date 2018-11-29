@@ -17,7 +17,6 @@ public class Graph {
         this.cutoff = cutoff;
         this.boardSize = boardSize;
 
-
         openlist = new PriorityQueue<>();
         closelist = new ArrayList<>();
     }
@@ -27,7 +26,8 @@ public class Graph {
     }
 
     private void Hamming(){
-//        https://codereview.stackexchange.com/questions/19644/optimizations-to-8-puzzle
+    //https://codereview.stackexchange.com/questions/19644/optimizations-to-8-puzzle
+
     }
 
     private void Manhattan(){
@@ -38,44 +38,140 @@ public class Graph {
 
     }
 
-    private void getNeighbours(){
+    private List<Board> getNeighbours(Board s){
+        List<Board> neighbours = new ArrayList<>();
+
+        int mat[][] = s.getMatrix();
+        int I_idx=-1, J_idx=-1;
+
+        for (int i =0 ; i< boardSize ; i++){
+            for (int j =0 ; j< boardSize ; j++) {
+                if (mat[i][j] == 0) {
+                    System.out.println("Found blank. Swapping");
+                    I_idx = i;
+                    J_idx = j;
+                    break;
+                }
+            }
+        }
+
+        for(int i = -1 ; i< 2; i++){
+            for (int j = -1; j<2 ; j++){
+
+                if( (I_idx == 0 && i == -1) || (I_idx == boardSize && i==1) ||
+                (J_idx == 0 && j==-1) || (J_idx == boardSize && j==1)){
+
+                    continue;
+                }
+
+//                int tmp[][] = Arrays.copyOf(mat , boardSize*boardSize);
+                int tmp[][] = mat;
+                int temp = mat[I_idx][J_idx];
+
+                tmp[I_idx][J_idx] = tmp[I_idx+i][J_idx+j];
+                tmp[I_idx+i][J_idx+j] = temp;
+                neighbours.add(new Board(boardSize,tmp , s, s.getDistance()+1,0));
+            }
+        }
+
+        return  neighbours;
+
+    }
+
+    private int bestFirstSearch(Board s, int heuristic){
+
+        int expanded = 0;
+
+        s.setParent(null);
+        openlist.add(s);
 
 
+        while(!openlist.isEmpty())
+        {
+            boolean flag = true;
+            Board uncovered = openlist.peek();
+            openlist.poll();
 
-//        ArrayList<Board> tempneighbors = new ArrayList<Board>();
+            if(uncovered.isGoal()){
+//                myfile<<"\nBFS dist : "<<uncovered->getDistance()<<endl;
+//                myfile<<"expanded: "<<expanded<<endl;
+//                myfile<<"Path : ";
 //
-////        assignZeroLoc(); //determines both x and y loc's of the zero
+//                cout<<"\nBFS dist : "<<uncovered->getDistance()<<endl;
+//                cout<<"expanded: "<<expanded<<endl;
+//                cout<<"Path : ";
+
+//                State * temp = uncovered->getParent();
+//                while(temp != null){
+//                    myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";
+//                    cout<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";
+//                    temp = temp->getParent();
+//                }
 //
-//        for (int i = -1; i < 2; i++) { //creating all surrounding x coordinates
-//            int p = zeroLocX + i; //current array being looked at
-//            if (p < 0 || p > N - 1)
-//                continue; //meaning these squares are out of bounds
-//            for (int j = -1; j < 2; j++) {
-//                int q = zeroLocY + j; //current index in current array
-//                if (q < 0 || q > N - 1 || (p == zeroLocX && q == zeroLocY) || //if we are out of bounds or at the same square
-//                        ((Math.abs(zeroLocX - p) + Math.abs(zeroLocY - q))) > 1) //or if delta x + delta y is greater than 1, aka at a diagonal space
-//                    continue; //skip this iteration
+//                return uncovered->getDistance();
+            }
+            else{
+
+                List<Board> nextBoards = getNeighbours(uncovered);
+                // uncovered->printState();
+                // printf("\n --> ");
+
+//                myfile<<" ("<<uncovered->getMissionary()<<","<<uncovered->getCannibal()<<","<<uncovered->getSide()<<") Dist: "<<uncovered->getDistance();
+//                myfile << "\n --> ";
+
+                closelist.add(uncovered);  //color[source]= BLACK;
+                expanded++;
+
+                while(!nextBoards.isEmpty()){
+
+                    Board visit = nextBoards.get(0); //grey node (bfs)
+                    nextBoards.remove(0);
+                    //visit->printState();
+//                    myfile<<" ("<<visit->getMissionary()<<","<<visit->getCannibal()<<","<<visit->getSide()<<") ";
+
+                    if(visit.isSolvable()){
+                        // visit->setDistance(visit->getParent()->getDistance() + 1);
+
+                        if(visit.isGoal()){
+//                            myfile<<"\nBFS dist : "<<visit->getDistance()<<endl;
+//                            myfile<<"expanded: "<<expanded<<endl;
+//                            myfile<<"Path : ";
 //
-//                int[][] temptiles = new int[boardSize][boardSize];
+//                            cout<<"\nBFS dist : "<<visit->getDistance()<<endl;
+//                            cout<<"expanded: "<<expanded<<endl;
+//                            cout<<"Path : ";
 //
-//                for (int m = 0; m < boardSize; m++)
-//                    temptiles[m] = Arrays.copyOf(startboard.getBoardSize()[m][n], N); //copy the original board
+//                            State * temp = visit->getParent();
+//                            while(temp != NULL){
+//                                myfile<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";
+//                                cout<<" ("<<temp->getMissionary()<<","<<temp->getCannibal()<<","<<temp->getSide()<<")  -- ";
 //
-//                int tempQ = temptiles[p][q]; //store the value of the value to swap
-//                temptiles[p][q] = 0; //place the 0 in a valid location
-//                temptiles[zeroLocX][zeroLocY] = tempQ; //place the stored value to swap where the 0 was
-//                EightPuzzle neighbor = new EightPuzzle(temptiles, this,
-//                        this.moves + 1); //create a new 8 puzzle
-//                tempneighbors.add(neighbor); //add it to the arraylist
-//                totalEnqueued++;
+//                                temp = temp->getParent();
+//                            }
 //
-//            }
-//
-//        }
-//
-//        EightPuzzle[] neighbors = new EightPuzzle[tempneighbors.size()];
-//
-//        return tempneighbors.toArray(neighbors);
+//                            return visit->getDistance();
+                        }
+                        else{
+                            openlist.add(visit);
+
+                        }
+                    }
+
+                }
+                // printf("\n -------------------------\n");
+//                myfile<<"\n -------------------------\n";
+                if(expanded == cutoff){
+                    System.out.println("Cut-off limit exceeded\nNodes expanded: "+cutoff);
+//                    cout<<"Depth: "<<uncovered->getDistance()<<endl;
+                    return -1;
+                }
+
+            }
+
+        }
+
+//        myfile<<"Solution not possible"<<endl;
+        return -1;
 
     }
 

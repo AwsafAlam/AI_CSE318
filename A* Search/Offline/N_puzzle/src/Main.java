@@ -23,7 +23,7 @@ public class Main {
             }
         }
 
-        Board starting = new Board(boardSize , mat , null , 0);
+        Board starting = new Board(boardSize , mat , null , 0, 0);
         Graph g = new Graph(starting , cutoff , boardSize);
 
         System.out.println(g.getStartboard().toString());

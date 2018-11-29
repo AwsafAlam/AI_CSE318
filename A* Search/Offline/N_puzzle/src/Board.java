@@ -2,14 +2,16 @@ public class Board {
 
     private int boardSize;
     private int matrix[][];
-    private Board prev;
-    private int movesNeeded;
+    private Board parent;
+    private int heuristic;
+    private int distance;
 
-    public Board(int boardSize, int[][] matrix, Board prev, int movesNeeded) {
+    public Board(int boardSize, int[][] matrix, Board prev, int distance, int heuristic) {
         this.boardSize = boardSize;
         this.matrix = matrix;
-        this.prev = prev;
-        this.movesNeeded = movesNeeded;
+        this.parent = prev;
+        this.distance = distance;
+        this.heuristic = heuristic;
     }
 
     @Override
@@ -52,6 +54,14 @@ public class Board {
         return true;
     }
 
+    public int getHeuristic() {
+        return heuristic;
+    }
+
+    public void setHeuristic(int heuristic) {
+        this.heuristic = heuristic;
+    }
+
     public int getBoardSize() {
         return boardSize;
     }
@@ -68,19 +78,19 @@ public class Board {
         this.matrix = matrix;
     }
 
-    public Board getPrev() {
-        return prev;
+    public Board getParent() {
+        return parent;
     }
 
-    public void setPrev(Board prev) {
-        this.prev = prev;
+    public void setParent(Board prev) {
+        this.parent = prev;
     }
 
-    public int getMovesNeeded() {
-        return movesNeeded;
+    public int getDistance() {
+        return distance;
     }
 
-    public void setMovesNeeded(int movesNeeded) {
-        this.movesNeeded = movesNeeded;
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 }
