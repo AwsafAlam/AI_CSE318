@@ -11,7 +11,7 @@ public class Main {
         Scanner sc = new Scanner(new File("input.txt"));
         Scanner scanner = new Scanner(System.in);
 
-        int cutoff = 10000;
+        int cutoff = 1000;
         int boardSize = sc.nextInt();
 
         System.out.println(boardSize);

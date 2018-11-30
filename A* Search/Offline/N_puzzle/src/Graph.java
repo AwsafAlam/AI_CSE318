@@ -47,20 +47,26 @@ public class Graph {
     private void getNeighbours(Board s) throws IOException {
 //        List<Board> neighbours = new ArrayList<>();
 
-        int mat[][] = s.getMatrix();
+        int mat[][] = new int[boardSize][boardSize];
+        for (int k =0 ; k< s.getMatrix().length ; k++){
+            mat[k] = s.getMatrix()[k];
+        }
         int I_idx=-1, J_idx=-1;
-
+        boolean f = false;
         for (int i =0 ; i< boardSize ; i++){
             for (int j =0 ; j< boardSize ; j++) {
+
                 if (mat[i][j] == 0) {
                     System.out.println("Found blank. Swapping " +i+" " +j+"->"+mat[i][j]);
                     I_idx = i;
                     J_idx = j;
+                    f = true;
                     break;
                 }
             }
+            if(f)
+                break;
         }
-
         for(int i = -1 ; i< 2; i++){
             for (int j = -1; j<2 ; j++){
 
@@ -70,19 +76,21 @@ public class Graph {
 //                (J_idx +j >= boardSize) || (I_idx +i < 0) || (J_idx +j < 0)){
                 if(( Math.abs(i) == Math.abs(j) ) || (I_idx +i >= boardSize) ||
                 (J_idx +j >= boardSize) || (I_idx +i < 0) || (J_idx +j < 0)){
-
-                    continue;
+                   continue;
                 }
-
+                
 //                int tmp[][] = Arrays.copyOf(s.getMatrix() , boardSize*boardSize);
                 int tmp[][] = new int[boardSize][boardSize];
-                for (int k =0 ; k< mat.length ; k++){
-                    tmp[k] = mat[k];
+                for (int k =0 ; k< boardSize ; k++){
+                    for (int l =0 ; l< boardSize ; l++){
+
+                    tmp[k][l] = mat[k][l];
+                    }
                 }
 //                System.arraycopy(s.getMatrix(), 0, tmp, 0, s.getMatrix().length);
 
                 System.out.println("("+I_idx+ ","+J_idx+") -> (" +(I_idx+i)+"," +(J_idx+j)+")");
-                fileWriter.write("("+I_idx+ ","+J_idx+") -> (" +(I_idx+i)+"," +(J_idx+j)+")\n");
+                fileWriter.write("("+I_idx+ ","+J_idx+") -> (" +(I_idx+i)+"," +(J_idx+j)+") = "+mat[I_idx+i][J_idx+j]+"\n");
 
                 tmp[I_idx][J_idx] = tmp[I_idx+i][J_idx+j];
                 tmp[I_idx+i][J_idx+j] = 0;

@@ -6,9 +6,12 @@ public class Board {
     private int heuristic;
     private int distance;
 
-    public Board(int boardSize, int[][] matrix, Board prev, int distance, int heuristic) {
+    public Board(int boardSize, int[][] mat, Board prev, int distance, int heuristic) {
         this.boardSize = boardSize;
-        this.matrix = matrix;
+        this.matrix = new int[boardSize][boardSize];
+        for(int i =0 ; i< mat.length ; i++)
+            this.matrix[i] = mat[i];
+
         this.parent = prev;
         this.distance = distance;
         this.heuristic = heuristic;
@@ -23,6 +26,7 @@ public class Board {
             }
             tmp += "\n";
         }
+        tmp+= "Dist : "+distance+"\n";
 //        System.out.println(tmp);
         return tmp;
     }
