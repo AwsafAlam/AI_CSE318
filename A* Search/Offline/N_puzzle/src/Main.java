@@ -6,15 +6,12 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        System.out.println("Hello World!");
 
         Scanner sc = new Scanner(new File("input.txt"));
-        Scanner scanner = new Scanner(System.in);
 
-        int cutoff = 1000;
         int boardSize = sc.nextInt();
-
-        System.out.println(boardSize);
+        int cutoff = sc.nextInt();
+        int heuristic_method = sc.nextInt();
 
         int mat[][] = new int[boardSize][boardSize];
 
@@ -26,15 +23,16 @@ public class Main {
 
         Board starting = new Board(boardSize , mat , null , 0, 0);
         Graph g = null;
+
         try {
-            g = new Graph(starting , cutoff , boardSize);
+
+            g = new Graph(starting , cutoff , boardSize , heuristic_method);
             System.out.println(g.bestFirstSearch(starting , 0));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-//        System.out.println(g.getStartboard().toString());
 
     }
 }

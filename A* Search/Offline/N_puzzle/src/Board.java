@@ -53,7 +53,7 @@ public class Board {
                     break;
 
                 if(matrix[i][j] != k){
-                    System.out.println("Not goal"+k+"\n"+toString());
+//                    System.out.println("Not goal"+k+"\n"+toString());
                     return false;
                 }
                 k++;

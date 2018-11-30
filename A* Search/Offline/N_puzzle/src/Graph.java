@@ -11,15 +11,17 @@ public class Graph {
     private int goal[][];
     private int cutoff;
     private int boardSize;
+    private Heuristic heuristic;
     private PriorityQueue<Board> openlist;
     private List<Board> closelist;
     private FileWriter fileWriter;
     private HashMap<Integer, Pair<Integer,Integer>> goalNode;
 
-    public Graph(Board board, int cutoff, int boardSize) throws IOException {
+    public Graph(Board board, int cutoff, int boardSize, int h) throws IOException {
         this.startboard = board;
         this.cutoff = cutoff;
         this.boardSize = boardSize;
+        this.heuristic = h;
 
         goal = new int[boardSize][boardSize];
         goalNode = new HashMap<>();
@@ -82,8 +84,47 @@ public class Graph {
         return dist;
     }
 
-    private void Lin_Conflict(){
+    private int Lin_Conflict(int mat[][]){
+        int lc = 0;
+        int dist = 0;
+        //Horizontal Conflict
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                Pair pos  = goalNode.get(mat[i][j]);
 
+                if (mat[i][j] != 0){
+                    dist += Math.abs((Integer) pos.getKey() - i) +Math.abs((Integer) pos.getValue() - j);
+                }
+                if((Integer) pos.getKey() != i || mat[i][j] == 0)
+                    continue;
+
+                for (int k = j+1; k < boardSize; k++) {
+                    if(mat[i][k] != 0 && goalNode.get(mat[i][k]).getKey() < goalNode.get(mat[i][j]).getKey()){
+                        lc++;
+                    }
+                }
+
+            }
+        }
+
+
+        //Vertical Conflict
+        for (int j = 0; j < boardSize; j++) {
+            for (int i = 0; i < boardSize; i++) {
+                Pair pos = goalNode.get(mat[i][j]);
+                if((Integer) pos.getKey() != j || mat[i][j] == 0)
+                    continue;
+
+                for (int k = i+1; k < boardSize; k++) {
+                    if(mat[i][k] != 0 && goalNode.get(mat[i][k]).getKey() < goalNode.get(mat[i][j]).getKey()){
+                        lc++;
+                    }
+                }
+
+            }
+        }
+        lc = dist + 2* lc;
+        return lc;
     }
 
     private void getNeighbours(Board s) throws IOException {
@@ -111,10 +152,6 @@ public class Graph {
         for(int i = -1 ; i< 2; i++){
             for (int j = -1; j<2 ; j++){
 
-//                if( (I_idx == 0 && i == -1) || (I_idx == boardSize && i==1) ||
-//                (J_idx == 0 && j==-1) || (J_idx == boardSize && j==1) ||
-//                ( Math.abs(i) == Math.abs(j) ) || (I_idx +i >= boardSize) ||
-//                (J_idx +j >= boardSize) || (I_idx +i < 0) || (J_idx +j < 0)){
                 if(( Math.abs(i) == Math.abs(j) ) || (I_idx +i >= boardSize) ||
                 (J_idx +j >= boardSize) || (I_idx +i < 0) || (J_idx +j < 0)){
                    continue;
@@ -132,8 +169,10 @@ public class Graph {
 
                 tmp[I_idx][J_idx] = tmp[I_idx+i][J_idx+j];
                 tmp[I_idx+i][J_idx+j] = 0;
+
 //                Board b = new Board(boardSize,tmp , s, s.getDistance()+1,getHamming(tmp));
-                Board b = new Board(boardSize,tmp , s, s.getDistance()+1,getManhattan(tmp));
+//                Board b = new Board(boardSize,tmp , s, s.getDistance()+1,getManhattan(tmp));
+                Board b = new Board(boardSize,tmp , s, s.getDistance()+1, Lin_Conflict(tmp));
 
                 if(!searchClosedList(b) && !searchOpenList(b)){
                     openlist.add(b);
@@ -154,7 +193,7 @@ public class Graph {
 
         for (Board board:openlist) {
             if (b.equals(board)){
-                System.out.println("Found in open list");
+//                System.out.println("Found in open list");
                 return true;
             }
         }
@@ -165,7 +204,7 @@ public class Graph {
 
         for (Board board:closelist) {
             if (b.equals(board)){
-                System.out.println("Found in closed list");
+//                System.out.println("Found in closed list");
                 return true;
             }
         }
