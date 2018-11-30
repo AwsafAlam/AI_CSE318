@@ -28,7 +28,7 @@ public class Main {
         Graph g = null;
         try {
             g = new Graph(starting , cutoff , boardSize);
-            g.bestFirstSearch(starting , 0);
+            System.out.println(g.bestFirstSearch(starting , 0));
 
         } catch (IOException e) {
             e.printStackTrace();

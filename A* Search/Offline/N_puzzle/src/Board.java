@@ -26,31 +26,40 @@ public class Board {
             }
             tmp += "\n";
         }
-        tmp+= "Dist : "+distance+"\n";
+        tmp+= "Dist : "+distance+"\nHeuristic : "+heuristic+"\n";
 //        System.out.println(tmp);
         return tmp;
     }
 
-    public boolean isGoal(){
-        int goal[][] = new int[boardSize][boardSize];
-        int i = 1;
-        for(int k =0 ; i< boardSize ; i++){
-            for(int j=0 ; j< boardSize ; j++)
-            {
-                if( i == (boardSize*boardSize)-1)
-                    break;
-
-                goal[k][j] = i;
-                i++;
+    @Override
+    public boolean equals(Object obj) {
+        Board b = (Board) obj;
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if(this.matrix[i][j] != b.matrix[i][j]){
+                    return false;
+                }
             }
         }
+        return true;
+    }
 
-        for(i =0 ; i< boardSize ; i++){
+    public boolean isGoal(){
+        int k = 1;
+        for(int i =0 ; i< boardSize ; i++){
             for(int j=0 ; j< boardSize ; j++)
             {
-                if(matrix[i][j] != goal[i][j])
-                    return  false;
+                if( k >= (boardSize*boardSize)-1)
+                    break;
+
+                if(matrix[i][j] != k){
+                    System.out.println("Not goal"+k+"\n"+toString());
+                    return false;
+                }
+                k++;
             }
+            if( k >= (boardSize*boardSize)-1)
+                break;
         }
         return true;
     }

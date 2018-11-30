@@ -1,26 +1,43 @@
+import javafx.util.Pair;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Graph {
 
     private Board startboard;
-    private Board goal;
+    private int goal[][];
     private int cutoff;
     private int boardSize;
     private PriorityQueue<Board> openlist;
     private List<Board> closelist;
     private FileWriter fileWriter;
-
+    private HashMap<Integer, Pair<Integer,Integer>> goalNode;
 
     public Graph(Board board, int cutoff, int boardSize) throws IOException {
         this.startboard = board;
         this.cutoff = cutoff;
         this.boardSize = boardSize;
+
+        goal = new int[boardSize][boardSize];
+        goalNode = new HashMap<>();
+        int k = 1;
+        for(int i =0 ; i< boardSize ; i++){
+            for(int j=0 ; j< boardSize ; j++)
+            {
+                if( k >= (boardSize*boardSize)){
+                    goal[i][j] = 0;
+                    goalNode.put(0 , new Pair<>(i,j));
+                    break;
+                }
+                goal[i][j] = k;
+                goalNode.put(k , new Pair<>(i,j));
+                k++;
+            }
+
+        }
 
         openlist = new PriorityQueue<>(new BoardComparator());
         closelist = new ArrayList<>();
@@ -31,13 +48,38 @@ public class Graph {
         return startboard;
     }
 
-    private void Hamming(){
+    private int getHamming(int mat[][]){
     //https://codereview.stackexchange.com/questions/19644/optimizations-to-8-puzzle
+        int dist = 0;
+        int k = 1;
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if( k >= (boardSize*boardSize)-1)
+                    break;
 
+                if(mat[i][j] != k){
+                    dist++;
+                }
+                k++;
+            }
+            if( k >= (boardSize*boardSize)-1)
+                break;
+        }
+
+        return dist;
     }
 
-    private void Manhattan(){
-
+    private int getManhattan(int mat[][]){
+        int dist = 0;
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                if (mat[i][j] != 0){
+                    Pair p  = goalNode.get(mat[i][j]);
+                    dist += Math.abs((Integer) p.getKey() - i) +Math.abs((Integer) p.getValue() - j);
+                }
+            }
+        }
+        return dist;
     }
 
     private void Lin_Conflict(){
@@ -45,7 +87,6 @@ public class Graph {
     }
 
     private void getNeighbours(Board s) throws IOException {
-//        List<Board> neighbours = new ArrayList<>();
 
         int mat[][] = new int[boardSize][boardSize];
         for (int k =0 ; k< s.getMatrix().length ; k++){
@@ -57,7 +98,7 @@ public class Graph {
             for (int j =0 ; j< boardSize ; j++) {
 
                 if (mat[i][j] == 0) {
-                    System.out.println("Found blank. Swapping " +i+" " +j+"->"+mat[i][j]);
+                //System.out.println("Found blank. Swapping " +i+" " +j+"->"+mat[i][j]);
                     I_idx = i;
                     J_idx = j;
                     f = true;
@@ -79,30 +120,56 @@ public class Graph {
                    continue;
                 }
                 
-//                int tmp[][] = Arrays.copyOf(s.getMatrix() , boardSize*boardSize);
                 int tmp[][] = new int[boardSize][boardSize];
                 for (int k =0 ; k< boardSize ; k++){
                     for (int l =0 ; l< boardSize ; l++){
-
                     tmp[k][l] = mat[k][l];
                     }
                 }
-//                System.arraycopy(s.getMatrix(), 0, tmp, 0, s.getMatrix().length);
 
-                System.out.println("("+I_idx+ ","+J_idx+") -> (" +(I_idx+i)+"," +(J_idx+j)+")");
-                fileWriter.write("("+I_idx+ ","+J_idx+") -> (" +(I_idx+i)+"," +(J_idx+j)+") = "+mat[I_idx+i][J_idx+j]+"\n");
+//                System.out.println("("+I_idx+ ","+J_idx+") -> (" +(I_idx+i)+"," +(J_idx+j)+")");
+                fileWriter.write("("+I_idx+ ","+J_idx+") -> (" +(I_idx+i)+"," +(J_idx+j)+") = "+mat[I_idx+i][J_idx+j]+ " moved\n");
 
                 tmp[I_idx][J_idx] = tmp[I_idx+i][J_idx+j];
                 tmp[I_idx+i][J_idx+j] = 0;
-                Board b = new Board(boardSize,tmp , s, s.getDistance()+1,0);
-                openlist.add(b);
-                fileWriter.write(b.toString() +"\n\n----------------\n");
-//                b.toString();
+//                Board b = new Board(boardSize,tmp , s, s.getDistance()+1,getHamming(tmp));
+                Board b = new Board(boardSize,tmp , s, s.getDistance()+1,getManhattan(tmp));
+
+                if(!searchClosedList(b) && !searchOpenList(b)){
+                    openlist.add(b);
+
+                }
+
+//                fileWriter.write(b.toString() +"\n\n----------------\n");
+                if(b.isGoal()){
+                    System.out.println("GOAL reached");
+//                    return;
+                }
             }
         }
 
-//        return  neighbours;
+    }
 
+    private boolean searchOpenList(Board b) {
+
+        for (Board board:openlist) {
+            if (b.equals(board)){
+                System.out.println("Found in open list");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean searchClosedList(Board b) {
+
+        for (Board board:closelist) {
+            if (b.equals(board)){
+                System.out.println("Found in closed list");
+                return true;
+            }
+        }
+        return false;
     }
 
     public int bestFirstSearch(Board s, int heuristic) throws IOException {
@@ -122,11 +189,18 @@ public class Graph {
 
             if(uncovered.isGoal()){
                 System.out.println("Goal reached ---------> ");
+                Board tmp = uncovered.getParent();
 
+                while (tmp != null){
+                    System.out.println(tmp.toString());
+                    tmp = tmp.getParent();
+                }
+
+                fileWriter.close();
+                return uncovered.getDistance()+uncovered.getHeuristic();
             }
             else{
 
-//                List<Board> nextBoards = getNeighbours(uncovered);
                 getNeighbours(uncovered);
                 closelist.add(uncovered);  //color[source]= BLACK;
                 expanded++;
