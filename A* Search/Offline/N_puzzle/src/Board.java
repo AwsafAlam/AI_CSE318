@@ -55,6 +55,8 @@ public class Board {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Board)) return false;
         Board b = (Board) obj;
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
