@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Board {
 
     private int boardSize;
@@ -15,6 +18,25 @@ public class Board {
         this.parent = prev;
         this.distance = distance;
         this.heuristic = heuristic;
+    }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof Board)) return false;
+//        Board board = (Board) o;
+//        return Arrays.equals(matrix, board.matrix);
+//    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        for (int i = 0; i< boardSize; i++){
+            for(int j =0 ; j< boardSize ; j++){
+                hash += (j+31)*(i+31)* Objects.hashCode(matrix[i][j]);
+            }
+        }
+        return hash;
     }
 
     @Override
