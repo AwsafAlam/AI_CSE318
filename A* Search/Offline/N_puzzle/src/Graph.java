@@ -107,8 +107,7 @@ public class Graph {
 //                    if(mat[i][k] != 0 &&
 //                    goalNode.get(mat[i][k]).getKey() < goalNode.get(mat[i][j]).getKey()){
 
-                    if(mat[i][k] != 0 &&
-                            mat[i][k] < mat[i][j]){
+                    if(mat[i][k] != 0 &&  mat[i][k] < mat[i][j]){
 //                        fileWriter.write("LC: ("+mat[i][j]+"-"+mat[i][k]+") ");
                         lc++;
                     }
@@ -151,7 +150,7 @@ public class Graph {
         int I_idx=-1, J_idx=-1;
         boolean f = false;
 
-        for (int i =0 ; i< boardSize ; i++){
+        for (int i =0 ; i< boardSize ; i++){ //finding blank index
             for (int j =0 ; j< boardSize ; j++) {
 
                 if (s.getMatrix()[i][j] == 0) {
