@@ -19,6 +19,10 @@ public class Execute {
             cities.add(new City(x,y));
         }
         Graph g = new Graph(cities);
+
+        g.printGraph();
+        g.nearestNeighbour(0);
+        g.printPath();
     }
 
 
