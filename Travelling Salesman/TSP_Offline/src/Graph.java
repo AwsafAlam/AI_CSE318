@@ -220,6 +220,7 @@ public class Graph {
         }
 
     }
+
 //    Input: A complete graph with distances defined on the edges and a route and its distance
 //    Output: A 2-opt optimal route
 //      1: repeat
@@ -242,10 +243,10 @@ public class Graph {
         // Get tour size
         int size = tour.size();
         new_tour = new ArrayList<>();
-        //CHECK THIS!!
+
         for (int i=0;i<size;i++)
         {
-//            newTour.SetCity(i, _tour.GetCity(i));
+
             new_tour.add(tour.get(i));
         }
 
@@ -280,6 +281,9 @@ public class Graph {
                         // Update the display
                         System.out.println("Improment found: "+Double.toString(best_distance)+" it: "+ Integer.toString(iteration));
                     }
+                    else {
+                        System.out.println("No Improment : "+Double.toString(best_distance)+" - "+Double.toString(new_distance)+" it: "+ Integer.toString(iteration));
+                    }
                 }
             }
 
@@ -312,6 +316,70 @@ public class Graph {
         {
             new_tour.add(c,tour.get(c));
         }
+    }
+
+    public void Three_Opt(int city, int cut_off){
+
+        NearestNeighbour(city);
+        // Get tour size
+        int size = tour.size();
+        new_tour = new ArrayList<>();
+
+        for (int i=0;i<size;i++)
+        {
+
+            new_tour.add(tour.get(i));
+        }
+
+        // repeat until no improvement is made
+        int improve = 0;
+        int iteration = 0;
+
+        while ( improve < cut_off )
+        {
+            double best_distance = getTourDistance(tour);
+
+            for (int i = 1; i < tour.size()-3; ++i)
+            {
+                for (int j = i+1; j < tour.size()-2; ++j)
+                {
+                    for (int k = j+1; k < tour.size()-1; ++k)
+                    {
+                        // Perform the 3 way swap and test the length
+                        //swapIndexes(i, k);
+                        //swapIndexes(j, k);
+                        TwoOptSwap(i,k);
+                        TwoOptSwap(j,k);
+                        iteration++;
+
+                        double new_distance = getTourDistance(new_tour);
+
+                        if (new_distance < best_distance){
+                            // Improvement found so reset
+                            improve = 0;
+
+                            for (int p=0;p<size;p++)
+                            {
+                                tour.add(p,new_tour.get(p));
+                            }
+
+                            best_distance = new_distance;
+
+                            // Update the display
+                            System.out.println("Improment found: "+df.format(best_distance)+" it: "+ Integer.toString(iteration));
+                        }
+                        else {
+                            System.out.println("No Improment : "+df.format(best_distance)+" - "+df.format(new_distance)+" it: "+ Integer.toString(iteration));
+                        }
+
+                    }
+                }
+            }
+            improve ++;
+
+        }
+
+
     }
 
 
@@ -361,10 +429,13 @@ public class Graph {
 //        Map<City, Double> sortedMapAsc = sortByComparator(tour, true);
 
         System.out.println("Printing Path of Travelling Salesman");
-        for (City c: tour) {
-            System.out.println("("+c.getX()+","+c.getY()+" - ");
+        for (int i = 0; i < tour.size() -1; i++) {
+            City c =tour.get(i);
+            City c2 = tour.get(i+1);
+
+            System.out.println("("+c.getX()+","+c.getY()+") - ("+c2.getX()+","+c2.getY()+") - "+df.format(calculateDistance(c,c2)));
         }
-        System.out.println("Tour distance : "+ getTourDistance(tour));
+        System.out.println("Tour distance : "+ df.format(getTourDistance(tour)));
     }
 
     public void printPath(City c){

@@ -20,12 +20,16 @@ public class Execute {
         }
         Graph g = new Graph(cities);
 
-        g.printGraph();
+        //g.printGraph();
 
         g.NearestNeighbour(0);
         g.printPath();
 
-        g.Two_Opt(0 , 1000);
+        //g.Two_Opt(0 , 300);
+        // cut-off is the number of exchanges without improvement
+        //g.printPath();
+
+        g.Three_Opt(0,100);
         g.printPath();
 //        g.NearestInsertion(0);
 //        g.printPath();
