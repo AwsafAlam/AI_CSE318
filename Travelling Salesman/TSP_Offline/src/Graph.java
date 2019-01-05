@@ -85,90 +85,95 @@ public class Graph {
     }
 
 
-//    public void CheapestInsertion(int city){
-//        for (City c:cities) {
-//            c.setVisited(false);
-//            c.setParent(null);
-//        }
-//
+    public void CheapestInsertion(int city){
+        for (City c:cities) {
+            c.setVisited(false);
+            c.setParent(null);
+        }
+
 //        tour = new HashMap<City, Double>();
-//        int n = cities.size();
-//        City init = cities.get(city); // Starting with the defined city
-//        City c1 = null , c2 = null;
-//        City nextTour = null;
-//
-//        init.setVisited(true);
+        tour = new ArrayList<>();
+
+        int n = cities.size();
+        City init = cities.get(city); // Starting with the defined city
+        City c1 = null , c2 = null;
+        City nextTour = null;
+
+        init.setVisited(true);
 //        tour.put(init, 0.0);
-//        n--;
-//        double distance = 0.0;
-//
-//        while (n > 0){
-//            double min = 999999999.0;
-//            nextTour = null;
-//            if(tour.size() < 2){
-//                for (int j = 0; j < cities.size(); j++) {
-//                    City c = cities.get(j);
-//                    if(c.isVisited())
-//                        continue;
-//                    double neighbour_dist = calculateDistance(c,init);
-//                    if(neighbour_dist < min){// Distance from neighbour
-//                        min = neighbour_dist;
-//                        nextTour = c;
-//                    }
-//                }
-//                distance += min;
-//                nextTour.setVisited(true);
-//                //TODO : Fix graph path
-////                init.setChild(nextTour);
-////                nextTour.setChild(null);
+        tour.add(init);
+        n--;
+        double distance = 0.0;
+
+        while (n > 0){
+            double min = 999999999.0;
+            nextTour = null;
+            if(tour.size() < 2){
+                for (int j = 0; j < cities.size(); j++) {
+                    City c = cities.get(j);
+                    if(c.isVisited())
+                        continue;
+                    double neighbour_dist = calculateDistance(c,init);
+                    if(neighbour_dist < min){// Distance from neighbour
+                        min = neighbour_dist;
+                        nextTour = c;
+                    }
+                }
+                distance += min;
+                nextTour.setVisited(true);
+                //TODO : Fix graph path
+//                init.setChild(nextTour);
+//                nextTour.setChild(null);
 //                tour.put(nextTour, Double.valueOf(df.format(distance)));
-//                n--;
-//                continue;
+                tour.add(nextTour);
+                n--;
+                continue;
+            }
+            else {
+                for (City ci: tour) {
+                    for (City cj: tour) {
+                        for (int k = 0; k < cities.size(); k++) {
+                            City ck = cities.get(k);
+                            if (ck.isVisited())
+                                continue;
+
+                            double edge_Cij = calculateDistance(ci,cj);
+                            double edge_Cik = calculateDistance(ci,ck);
+                            double edge_Cjk = calculateDistance(ck,cj);
+
+                            if ((edge_Cik + edge_Cjk - edge_Cij) < min ) {
+                                min = edge_Cik + edge_Cjk - edge_Cij;
+                                nextTour = ck;
+                                c1 = ci;
+                                c2 = ck;
+                            }
+
+                        }
+
+                    }
+                }
+
+            }
+
+            distance += min;
+            nextTour.setVisited(true);
+            //TODO : Fix graph paths for cheapest insertions
+//            if(c1.getChild() != null && c1.getChild().equals(c2)){
+//                nextTour.setChild(c2);
+//                c1.setChild(nextTour);
 //            }
-//            else {
-//                for (City ci: tour.keySet()) {
-//                    for (City cj: tour.keySet()) {
-//                        for (int k = 0; k < cities.size(); k++) {
-//                            City ck = cities.get(k);
-//                            if (ck.isVisited())
-//                                continue;
-//
-//                            double edge_Cij = calculateDistance(ci,cj);
-//                            double edge_Cik = calculateDistance(ci,ck);
-//                            double edge_Cjk = calculateDistance(ck,cj);
-//
-//                            if ((edge_Cik + edge_Cjk - edge_Cij) < min ) {
-//                                min = edge_Cik + edge_Cjk - edge_Cij;
-//                                nextTour = ck;
-//                                c1 = ci;
-//                                c2 = ck;
-//                            }
-//
-//                        }
-//
-//                    }
-//                }
-//
+//            else{
+//                nextTour.setChild(c1);
+//                c2.setChild(nextTour);
 //            }
-//
-//            distance += min;
-//            nextTour.setVisited(true);
-//            //TODO : Fix graph paths for cheapest insertions
-////            if(c1.getChild() != null && c1.getChild().equals(c2)){
-////                nextTour.setChild(c2);
-////                c1.setChild(nextTour);
-////            }
-////            else{
-////                nextTour.setChild(c1);
-////                c2.setChild(nextTour);
-////            }
 //            tour.put(nextTour, Double.valueOf(df.format(distance)));
-//            n--;
-//
-//        }
-////        printPath(nextTour);
-//
-//    }
+            tour.add(nextTour);
+            n--;
+
+        }
+//        printPath(nextTour);
+
+    }
 
     public void NearestNeighbour(int city){
         for (City c:cities) {
@@ -215,8 +220,23 @@ public class Graph {
         }
 
     }
-
-    public void Two_Opt(int city){
+//    Input: A complete graph with distances defined on the edges and a route and its distance
+//    Output: A 2-opt optimal route
+//      1: repeat
+//      2: for i ∈ Nodes eligible to be swapped do
+//      3: for j ∈ Nodes eligible to be swapped such that j > i do
+//      4: Apply 2-opt swap to i and j: create the new route as follows:
+//      5: Take route upto i and add in order
+//      6: Take route from j to i (both including) and add in reverse order
+//      7: Take the route after k and add in order
+//      8: Calculate new distance
+//      9: if new distance < distance then
+//      10: Update route to include new ordering
+//      11: end if
+//      12: end for
+//      13: end for
+//            14: until no improvement is made
+    public void Two_Opt(int city,int cut_off){
         NearestNeighbour(city);
 
         // Get tour size
@@ -233,7 +253,7 @@ public class Graph {
         int improve = 0;
         int iteration = 0;
 
-        while ( improve < 800 )
+        while ( improve < cut_off )
         {
             double best_distance = getTourDistance(tour);
 
@@ -252,15 +272,13 @@ public class Graph {
 
                         for (int j=0;j<size;j++)
                         {
-//                            _tour.SetCity(j, _newTour.GetCity(j));
                             tour.add(j,new_tour.get(j));
                         }
 
                         best_distance = new_distance;
 
                         // Update the display
-//                        NotifyTourUpdate(_tour, Double.toString(best_distance), Integer.toString(iteration));
-                        // Print path
+                        System.out.println("Improment found: "+Double.toString(best_distance)+" it: "+ Integer.toString(iteration));
                     }
                 }
             }
@@ -270,22 +288,14 @@ public class Graph {
         }
     }
 
-    private double getTourDistance(List<City> tour) {
-        double dist = 0;
-        for (int i = 0; i < tour.size() - 1; i++) {
-            dist += calculateDistance(tour.get(i), tour.get(i+1));
-        }
-        return dist;
-    }
 
-    void TwoOptSwap( int i, int k )
+    private void TwoOptSwap( int i, int k )
     {
         int size = tour.size();
 
         // 1. take route[0] to route[i-1] and add them in order to new_route
         for ( int c = 0; c <= i - 1; ++c )
         {
-//            _newTour.SetCity( c, _tour.GetCity( c ) );
             new_tour.add(c,tour.get(c));
         }
 
@@ -293,7 +303,6 @@ public class Graph {
         int dec = 0;
         for ( int c = i; c <= k; ++c )
         {
-//            _newTour.SetCity( c, _tour.GetCity( k - dec ) );
             new_tour.add(c, tour.get(k-dec));
             dec++;
         }
@@ -301,11 +310,18 @@ public class Graph {
         // 3. take route[k+1] to end and add them in order to new_route
         for ( int c = k + 1; c < size; ++c )
         {
-//            _newTour.SetCity( c, _tour.GetCity( c ) );
             new_tour.add(c,tour.get(c));
         }
     }
 
+
+    private double getTourDistance(List<City> tour) {
+        double dist = 0;
+        for (int i = 0; i < tour.size() - 1; i++) {
+            dist += calculateDistance(tour.get(i), tour.get(i+1));
+        }
+        return dist;
+    }
 
     private static Map<City, Double> sortByComparator(Map<City, Double> unsortMap, final boolean order)
     {
@@ -348,6 +364,7 @@ public class Graph {
         for (City c: tour) {
             System.out.println("("+c.getX()+","+c.getY()+" - ");
         }
+        System.out.println("Tour distance : "+ getTourDistance(tour));
     }
 
     public void printPath(City c){

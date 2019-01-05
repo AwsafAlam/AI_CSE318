@@ -25,7 +25,7 @@ public class Execute {
         g.NearestNeighbour(0);
         g.printPath();
 
-        g.Two_Opt(0);
+        g.Two_Opt(0 , 1000);
         g.printPath();
 //        g.NearestInsertion(0);
 //        g.printPath();
