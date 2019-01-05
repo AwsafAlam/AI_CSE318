@@ -20,22 +20,28 @@ public class Execute {
         }
         Graph g = new Graph(cities);
 
-        //g.printGraph();
+        g.printGraph();
+        System.out.println("Running Nearest Insertion");
+        g.NearestInsertion(0);
+        g.printPath();
 
+        System.out.println("Running Cheapest Insertion");
+        g.CheapestInsertion(0);
+        g.printPath();
+
+        System.out.println("Running Nearest Neighbour");
         g.NearestNeighbour(0);
         g.printPath();
 
-        //g.Two_Opt(0 , 300);
+        System.out.println("Running 2 OPT ...");
+        g.Two_Opt(0 , 100);
         // cut-off is the number of exchanges without improvement
-        //g.printPath();
-
-        g.Three_Opt(0,100);
         g.printPath();
-//        g.NearestInsertion(0);
-//        g.printPath();
-//
-//        g.CheapestInsertion(0);
-//        g.printPath();
+
+        System.out.println("Running 3-OPT ...");
+        g.Three_Opt(0,50);
+        g.printPath();
+
     }
 
 

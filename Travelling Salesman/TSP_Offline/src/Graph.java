@@ -282,7 +282,7 @@ public class Graph {
                         System.out.println("Improment found: "+Double.toString(best_distance)+" it: "+ Integer.toString(iteration));
                     }
                     else {
-                        System.out.println("No Improment : "+Double.toString(best_distance)+" - "+Double.toString(new_distance)+" it: "+ Integer.toString(iteration));
+//                        System.out.println("No Improvement : "+Double.toString(best_distance)+" - "+Double.toString(new_distance)+" it: "+ Integer.toString(iteration));
                     }
                 }
             }
@@ -369,7 +369,7 @@ public class Graph {
                             System.out.println("Improment found: "+df.format(best_distance)+" it: "+ Integer.toString(iteration));
                         }
                         else {
-                            System.out.println("No Improment : "+df.format(best_distance)+" - "+df.format(new_distance)+" it: "+ Integer.toString(iteration));
+//                            System.out.println("No Improvement : "+df.format(best_distance)+" - "+df.format(new_distance)+" it: "+ Integer.toString(iteration));
                         }
 
                     }
