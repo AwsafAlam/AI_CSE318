@@ -25,11 +25,13 @@ public class Execute {
         g.NearestNeighbour(0);
         g.printPath();
 
-        g.NearestInsertion(0);
+        g.Two_Opt(0);
         g.printPath();
-
-        g.CheapestInsertion(0);
-        g.printPath();
+//        g.NearestInsertion(0);
+//        g.printPath();
+//
+//        g.CheapestInsertion(0);
+//        g.printPath();
     }
 
 
