@@ -1,10 +1,14 @@
+import javafx.util.Pair;
+
 import java.text.DecimalFormat;
 import java.util.*;
+
+import static java.util.stream.Collectors.toMap;
 
 public class Graph {
 
     private List<City> cities;
-//    HashMap<City , Double> tour;
+    private static final double INF = 999999999.0;
     List<City> tour;
     List<City> new_tour;
 
@@ -45,13 +49,11 @@ public class Graph {
             c.setParent(null);
         }
 
-//        tour = new HashMap<City, Double>();
         tour = new ArrayList<>();
         int n = cities.size();
         City init = cities.get(city); // Starting with the defined city
         init.setVisited(true);
         tour.add(init);
-//        tour.put(init, 0.0);
         n--;
         double distance = 0.0;
 
@@ -216,6 +218,216 @@ public class Graph {
 //            tour.put(currentTour, Double.valueOf(df.format(distance)));
             tour.add(currentTour);
             n--;
+
+        }
+
+    }
+
+    public void NearestNeighbour_Random(int city){
+        for (City c:cities) {
+            c.setVisited(false);
+            c.setParent(null);
+        }
+
+        tour = new ArrayList<>();
+        int n = cities.size();
+        City init = cities.get(city); // Starting with the defined city
+        init.setVisited(true);
+        tour.add(init);
+        n--;
+        double distance = 0.0;
+        City prevTour = init;
+        int max = 3, min =1;
+        while (n > 0){
+
+            double first = INF;
+            double second = INF;
+            double third = INF;
+
+            City firstCity = null;
+            City secCity = null;
+            City thirdCity = null;
+
+            for (int j = 0; j < cities.size(); j++) {
+
+                City c = cities.get(j);
+                if(c.isVisited())
+                    continue;
+
+                double neighbour_dist = calculateDistance(c,prevTour);
+                if(neighbour_dist < first){// Distance from neighbour
+                    third = second;
+                    thirdCity = secCity;
+                    second = first;
+                    secCity = firstCity;
+                    first = neighbour_dist;
+                    firstCity = c;
+                }
+                else if(neighbour_dist > first && neighbour_dist < second){
+                    third = second;
+                    thirdCity = secCity;
+                    second = neighbour_dist;
+                    secCity = c;
+
+                }
+                else if(neighbour_dist > first && neighbour_dist> second && neighbour_dist < third){
+                    thirdCity = c;
+                    third = neighbour_dist;
+                }
+
+            }
+
+            if (third == INF){ max = 2;}
+            if( second == INF){ max = 1;}
+
+            Random random = new Random();
+            int choice  =random.nextInt(max - min + 1) + min;
+
+            if(choice == 1){
+                distance += first;
+                firstCity.setVisited(true);
+                prevTour = firstCity;
+                tour.add(firstCity);
+            }
+            else if(choice == 2){
+                distance += second;
+                secCity.setVisited(true);
+                prevTour = secCity;
+                tour.add(secCity);
+            }
+            else {
+                distance += third;
+                thirdCity.setVisited(true);
+                prevTour = thirdCity;
+                tour.add(thirdCity);
+            }
+            n--;
+
+        }
+
+    }
+
+    public void SavingsHeuristic(int city){
+        for (City c:cities) {
+            c.setVisited(false);
+            c.setParent(null);
+        }
+
+        List<List<City>> tourlist = new ArrayList<>();
+        int n  = cities.size() , k = city;
+        City start = cities.get(city);
+
+        for (int i = 0; i < n; i++) {
+            if(i == k)
+                continue;
+            List<City> subtours  = new ArrayList<>();
+            //subtours.add(cities.get(i));
+            subtours.add(start);
+            subtours.add(cities.get(i));
+            subtours.add(start);
+            tourlist.add(subtours);
+        }
+        double savings , max = 0.0;
+
+        City ci = null;
+        City cj = null;
+
+
+        Map<Pair<City, City>, Double> savingslist = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == k || i == j || j == k)
+                    continue;
+
+                savings = calculateDistance(cities.get(k), cities.get(i)) + calculateDistance(cities.get(k), cities.get(j))
+                        - calculateDistance(cities.get(i), cities.get(j));
+                savingslist.put(new Pair<>(cities.get(i) , cities.get(j)) , savings);
+            }
+        }
+
+        Map<Pair<City, City>, Double> sorted = savingslist
+                .entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,LinkedHashMap::new));
+
+
+        // Form a new subtourby connecting (i,j) and deleting arcs (i, k ) and (k , j) if the folowing conditions are satisfied : a)bothe i and j are directly accessible from k. b) node i  andj are not in the same tour;
+
+
+        // Set sij = INF ; meaning node pair has been processed
+        // while ( max tour size < n)
+
+//        for (int i = 0; i < s.size(); i++) {
+//            System.out.println(s.poll());
+//        }
+
+
+    }
+
+    public void savings(int city){
+        List<City> hub = new ArrayList<>();
+        tour = new ArrayList<>();
+        for (City c:cities) {
+            c.setVisited(false);
+            c.setParent(null);
+            hub.add(c);
+        }
+        int n = cities.size() , k = city;
+        City start = cities.get(city);
+        tour.add(start);
+        // Partial tours
+        for (int i = 0; i < n; i++) {
+            if (i==k)
+                continue;
+
+            tour.add(cities.get(i));
+            tour.add(start);
+        }
+
+        hub.remove(k);
+        n--;
+        double savings;
+
+        Map<Pair<City, City>, Double> savingslist = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == k || i == j || j == k)
+                    continue;
+
+                savings = calculateDistance(cities.get(k), cities.get(i)) + calculateDistance(cities.get(k), cities.get(j))
+                        - calculateDistance(cities.get(i), cities.get(j));
+                savingslist.put(new Pair<>(cities.get(i) , cities.get(j)) , savings);
+            }
+        }
+
+        Map<Pair<City, City>, Double> sorted = savingslist
+                .entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,LinkedHashMap::new));
+
+        while (n > 2){
+            for (Pair<City, City> cij: sorted.keySet()){
+//                System.out.println("Savings : "+sorted.get(cij));
+                City ci = cij.getKey();
+                City cj = cij.getValue();
+                int tourlen = tour.size();
+                for (int i = 0; i < tourlen; i++) {
+                    if(i+2 >=  tourlen)
+                        continue;
+                    if( (tour.get(i) == ci && tour.get(i+2) == cj) || (tour.get(i) == cj && tour.get(i+2) == ci)){
+                        tour.remove(i+1);
+                        n--;
+                        break;
+                    }
+
+                }
+//                tour.add(ci);
+//                tour.add(cj);
+            }
 
         }
 
