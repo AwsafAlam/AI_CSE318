@@ -177,7 +177,7 @@ public class Graph {
 
     }
 
-    public void NearestNeighbour(int city){
+    public double NearestNeighbour(int city){
         for (City c:cities) {
             c.setVisited(false);
             c.setParent(null);
@@ -220,7 +220,7 @@ public class Graph {
             n--;
 
         }
-
+        return getTourDistance(tour);
     }
 
     public void NearestNeighbour_Random(int city){
@@ -307,7 +307,7 @@ public class Graph {
 
     }
 
-    public void SavingsHeuristic(int city){
+    public void SavingsHeuristic_Random(int city){
         for (City c:cities) {
             c.setVisited(false);
             c.setParent(null);
@@ -366,8 +366,9 @@ public class Graph {
 
     }
 
-    public void savings(int city){
+    public double SavingsHeuristic(int city){
         List<City> hub = new ArrayList<>();
+        Map<City, List<City>> savingsgraph;
         tour = new ArrayList<>();
         for (City c:cities) {
             c.setVisited(false);
@@ -425,11 +426,11 @@ public class Graph {
                     }
 
                 }
-//                tour.add(ci);
-//                tour.add(cj);
+
             }
 
         }
+        return getTourDistance(tour);
 
     }
 
