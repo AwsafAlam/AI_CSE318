@@ -39,8 +39,25 @@ public class Graph {
     private double calculateDistance(City a , City b){
         double dist  = 0;
         dist = Math.sqrt( Math.pow(a.getX() - b.getX() , 2) + Math.pow(a.getY() - b.getY() , 2) );
-
+//        dist =getDistanceFromLatLonInKm(a.getX(),a.getY() , b.getX() , b.getY());
         return dist;
+    }
+
+    double getDistanceFromLatLonInKm(double lat1,double lon1,double lat2,double lon2) {
+        double R = 6371; // Radius of the earth in km
+        double dLat = deg2rad(lat2-lat1); // deg2rad below
+        double dLon = deg2rad(lon2-lon1);
+        double a =
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+                                Math.sin(dLon/2) * Math.sin(dLon/2)
+                ;
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = R * c; // Distance in km
+        return d;
+    }
+    double deg2rad(double deg) {
+        return deg * (Math.PI/180);
     }
 
     public void NearestInsertion(int city){
@@ -367,72 +384,128 @@ public class Graph {
     }
 
     public double SavingsHeuristic(int city){
-        List<City> hub = new ArrayList<>();
-        Map<City, List<City>> savingsgraph;
-        tour = new ArrayList<>();
+
         for (City c:cities) {
             c.setVisited(false);
             c.setParent(null);
-            hub.add(c);
         }
+        tour = new ArrayList<>();
         int n = cities.size() , k = city;
+        double savingstable[][] = new double[n][n];
         City start = cities.get(city);
-        tour.add(start);
-        // Partial tours
-        for (int i = 0; i < n; i++) {
-            if (i==k)
-                continue;
+        start.setVisited(true);
 
-            tour.add(cities.get(i));
-            tour.add(start);
-        }
+        double max1 = 0.0 , max2= 0.0;
+        Pair<City,City> maxpair=null;
 
-        hub.remove(k);
-        n--;
-        double savings;
-
-        Map<Pair<City, City>, Double> savingslist = new HashMap<>();
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+        for (int i = 0; i < n ; i++) {
+            for (int j = 0; j < n ; j++) {
                 if (i == k || i == j || j == k)
                     continue;
 
-                savings = calculateDistance(cities.get(k), cities.get(i)) + calculateDistance(cities.get(k), cities.get(j))
+                double d = calculateDistance(cities.get(k), cities.get(i)) + calculateDistance(cities.get(k), cities.get(j))
                         - calculateDistance(cities.get(i), cities.get(j));
-                savingslist.put(new Pair<>(cities.get(i) , cities.get(j)) , savings);
-            }
-        }
-
-        Map<Pair<City, City>, Double> sorted = savingslist
-                .entrySet()
-                .stream()
-                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,LinkedHashMap::new));
-
-        while (n > 2){
-            for (Pair<City, City> cij: sorted.keySet()){
-//                System.out.println("Savings : "+sorted.get(cij));
-                City ci = cij.getKey();
-                City cj = cij.getValue();
-                int tourlen = tour.size();
-                for (int i = 0; i < tourlen; i++) {
-                    if(i+2 >=  tourlen)
-                        continue;
-                    if( (tour.get(i) == ci && tour.get(i+2) == cj) || (tour.get(i) == cj && tour.get(i+2) == ci)){
-                        tour.remove(i+1);
-                        n--;
-                        break;
-                    }
-
+                Pair<City,City> tmp = new Pair<>(cities.get(i) , cities.get(j)) ;
+                savingstable[i][j] = d;
+                if(d > max1){
+                    max1 = d;
+                    maxpair = tmp;
                 }
+            }
+        }
 
+
+//        Map<Pair<City, City>, Double> savingslist = new HashMap<>();
+//
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < n; j++) {
+//                if (i == k || i == j || j == k)
+//                    continue;
+//
+//                double savings = calculateDistance(cities.get(k), cities.get(i)) + calculateDistance(cities.get(k), cities.get(j))
+//                        - calculateDistance(cities.get(i), cities.get(j));
+//                Pair<City,City> tmp = new Pair<>(cities.get(i) , cities.get(j)) ;
+//                savingslist.put(tmp, savings);
+//                if(savings > maxsav){
+//                    maxsav = savings;
+//                    maxpair = tmp;
+//                }
+//            }
+//        }
+//
+//        Map<Pair<City, City>, Double> sorted = savingslist
+//                .entrySet()
+//                .stream()
+//                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+//                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,LinkedHashMap::new));
+
+        maxpair.getKey().setVisited(true);
+        maxpair.getValue().setVisited(true);
+        tour.add(maxpair.getKey());
+        tour.add(maxpair.getValue());
+
+//        City front = null, back = null;
+        while (tour.size() < n-1 ){
+
+            //System.out.println("Savings : "+sav);
+            int x=-1,y=-1;
+//            City ci = cij.getKey();
+//            City cj = cij.getValue();
+//            if(ci.isVisited() || cj.isVisited())
+//                continue;
+
+            City front = tour.get(0);
+            City back = tour.get(tour.size() - 1);
+            int u = cities.indexOf(front);
+            int v = cities.indexOf(back);
+
+            //find edge for u
+            max1=0;
+            for(int i=0;i< n;i++){
+                if(!cities.get(i).isVisited())
+                {
+                    if(savingstable[u][i] > max1)
+                        max1=savingstable[u][i]; x=i;
+                }
+            }
+
+            //find edge for v
+            max2=0;
+            for(int i=0 ;i< n;i++){
+                if(!cities.get(i).isVisited())
+                {
+                    if(savingstable[v][i] > max2)
+                        max2=savingstable[v][i]; y=i;
+                }
+            }
+
+            if(x==y)
+            {
+
+                if(max1 > max2){
+                    cities.get(x).setVisited(true); tour.add(0 , cities.get(x));
+                }
+                else{
+                    cities.get(y).setVisited(true); tour.add(cities.get(y));
+                }
+            }
+
+            else
+            {
+                cities.get(x).setVisited(true); tour.add(0 , cities.get(x));
+                cities.get(y).setVisited(true); tour.add(cities.get(y));
             }
 
         }
+        tour.add(0,start);
+        tour.add(start);
+
+
         return getTourDistance(tour);
 
     }
+
+
 
 //    Input: A complete graph with distances defined on the edges and a route and its distance
 //    Output: A 2-opt optimal route

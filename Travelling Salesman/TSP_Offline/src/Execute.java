@@ -62,30 +62,33 @@ public class Execute {
         }
         System.out.println("Best Case : City- "+minC+"-"+min+" Worst case: City- "+maxC+"-"+max);
 
-//        min = 9999999.9 ; max = 0.0;
-//        minC = 0; maxC = 0;
-//        for (int i = 0; i < 5; i++) {
-//            int city  =random.nextInt(n);
-//            System.out.println("Statring at city: "+city+1+"-> ("+cities.get(city).getX()+","+cities.get(city).getY()+")");
-//
-//            System.out.println("Running Savings Heuristic");
-//            double dist =  g.SavingsHeuristic(city);
-//            if(dist < min){
-//                min = dist;
-//                minC = city+1;
-//            }
-//            if(dist > max){
-//                max = dist;
-//                maxC = city+1;
-//            }
-//        }
-//        System.out.println("Best Case : City- "+minC+"-"+min+" Worst case: City- "+maxC+"-"+max);
+        min = 9999999.9 ; max = 0.0;
+        minC = 0; maxC = 0;
+        for (int i = 0; i < 5; i++) {
+            int city  =random.nextInt(n);
+            System.out.println("Statring at city: "+ (city+1) +"-> ("+cities.get(city).getX()+","+cities.get(city).getY()+")");
 
+            System.out.println("Running Savings Heuristic");
+            double dist =  g.SavingsHeuristic(city);
+            //g.printPath();
 
-        System.out.println("Running 2 OPT ...");
-        g.Two_Opt(minC-1 , 100);
-        // cut-off is the number of exchanges without improvement
+            if(dist < min){
+                min = dist;
+                minC = city+1;
+            }
+            if(dist > max){
+                max = dist;
+                maxC = city+1;
+            }
+        }
+        System.out.println("Best Case : City- "+minC+"-"+min+" Worst case: City- "+maxC+"-"+max);
+        double dist =  g.SavingsHeuristic(4);
         g.printPath();
+
+//        System.out.println("Running 2 OPT ...");
+//        g.Two_Opt(minC-1 , 100);
+        // cut-off is the number of exchanges without improvement
+//        g.printPath();
 
         //System.out.println("Running 3-OPT ...");
         //g.Three_Opt(city,50);
