@@ -346,6 +346,7 @@ public class Graph {
             c.setParent(null);
         }
         tour = new ArrayList<>();
+        Map<Double , Pair<City,City>> Ksavings = new HashMap<>();
         int n = cities.size() , k = city;
         double savingstable[][] = new double[n][n];
         City start = cities.get(city);
@@ -367,13 +368,25 @@ public class Graph {
                     max1 = d;
                     maxpair = tmp;
                 }
+                Ksavings.put(d,tmp);
             }
         }
 
-        maxpair.getKey().setVisited(true);
-        maxpair.getValue().setVisited(true);
-        tour.add(maxpair.getKey());
-        tour.add(maxpair.getValue());
+        Map<Double,Pair<City, City>> sorted = Ksavings
+                .entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
+                .collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,LinkedHashMap::new));
+
+        Random random = new Random();
+        int choice  =random.nextInt(n);
+
+        Pair<City, City> kpair = (Pair<City, City>) sorted.values().toArray()[choice];
+
+        kpair.getKey().setVisited(true);
+        kpair.getValue().setVisited(true);
+        tour.add(kpair.getKey());
+        tour.add(kpair.getValue());
 
         while (tour.size() < n-1 ){
 
@@ -579,9 +592,9 @@ public class Graph {
         }
     }
 
-    public double Two_Opt_Nearest(int city,int cut_off, int neigh_num){
-        NearestNeighbour_Random(city);
-
+    public double Two_Opt_BestImp(List<City> t, int cut_off, int neigh_num){
+//        NearestNeighbour_Random(city);
+        tour = t;
         // Get tour size
         int size = tour.size();
         new_tour = new ArrayList<>();
@@ -624,6 +637,68 @@ public class Graph {
 
                         // Update the display
                         System.out.println("Improment found: "+Double.toString(best_distance)+" it: "+ Integer.toString(count));
+                    }
+
+                    count++;
+                    if(count >= neigh_num){
+                        break;
+                    }
+                }
+            }
+
+            improve ++;
+
+        }
+        return getTourDistance(tour);
+    }
+
+    public double Two_Opt_FirstImp(List<City> t, int cut_off, int neigh_num){
+        //NearestNeighbour_Random(city);
+        tour = t;
+        // Get tour size
+        int size = tour.size();
+        new_tour = new ArrayList<>();
+
+        for (int i=0;i<size;i++)
+        {
+
+            new_tour.add(tour.get(i));
+        }
+
+        // repeat until no improvement is made
+        int improve = 0;
+
+
+        while ( improve < cut_off )
+        {
+            double best_distance = getTourDistance(tour);
+
+            for ( int i = 1; i < size - 1; i++ )
+            {
+                Map<Double , City> Nlist = cities.get(i).getNeighbour();
+                int count = 0;
+                for (double d:Nlist.keySet()) {
+                    City c = Nlist.get(d);
+                    int k = cities.indexOf(c);
+                    TwoOptSwap( i, k );
+                    double new_distance = getTourDistance(new_tour);
+
+                    if ( new_distance < best_distance )
+                    {
+                        // Improvement found so reset
+                        improve = 0;
+                        tour = new ArrayList<>();
+                        for (int j=0;j<size;j++)
+                        {
+                            tour.add(j,new_tour.get(j));
+                        }
+
+                        best_distance = new_distance;
+
+                        // Update the display
+                        System.out.println("Improment found: "+Double.toString(best_distance)+" it: "+ Integer.toString(count));
+                        break;
+
                     }
 
                     count++;

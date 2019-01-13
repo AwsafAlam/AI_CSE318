@@ -23,18 +23,18 @@ public class Execute {
         Graph g = new Graph(cities);
 
 
-        Random random = new Random();
         System.out.println("Choose Heuristic to run :\n" +
                 "1. Nearest Insertion\n" +
                 "2. Cheapest Insertion\n" +
                 "3. Nearest Neighbour\n" +
-                "4. Nearest Neighbours (randomised)\n"+
-                "5. Savings Heuristic\n" +
-                "6. Savings Heuristic (Randomised)\n"+
-                "7. k-OPT for k=2\n" +
-                "8. k-OPT for k=3\n" +
+                "4. Savings Heuristic\n" +
+                "5. k-OPT for k=2 First Improvement\n" +
+                "6. 2-OPT Best Improvement\n"+
+                "7. k-OPT for k=3\n" +
                 "-----------------------------------");
         int choice = scanner.nextInt();
+
+        Random random = new Random();
         int city  =random.nextInt(n);
 
         double min = 9999999.9 , max = 0.0;
@@ -55,6 +55,7 @@ public class Execute {
         }
         else if(choice == 3){
             /// Task -1
+            max = 0.0;
             for (int i = 0; i < 5; i++) {
                 city  =random.nextInt(n);
                 System.out.println("Statring at city: "+ (city+1) +"-> ("+cities.get(city).getX()+","+cities.get(city).getY()+")");
@@ -71,37 +72,17 @@ public class Execute {
                     maxC = city+1;
                 }
             }
-            System.out.println("Best Case : City- "+minC+"-"+min+" Worst case: City- "+maxC+"-"+max);
-
-        }
-        else if(choice == 4){
-            /// Task -1
-            min = 9999999.9 ; max = 0.0;
-            for (int i = 0; i < 5; i++) {
-                city  =random.nextInt(n);
-                System.out.println("Statring at city: "+ (city+1) +"-> ("+cities.get(city).getX()+","+cities.get(city).getY()+")");
-
-                System.out.println("Running Nearest Neighbour");
-                double dist =  g.NearestNeighbour(city);
-                //g.printPath();
-                if(dist < min){
-                    min = dist;
-                    minC = city+1;
-                }
-                if(dist > max){
-                    max = dist;
-                    maxC = city+1;
-                }
-            }
-            System.out.println("Best Case : City- "+minC+"-"+min+" Worst case: City- "+maxC+"-"+max);
+            System.out.println("Best Case : City- "+minC+" : "+min+" Worst case: City- "+maxC+"-"+max);
             min = 9999999.9 ; max = 0.0;
             double avg=0;
+            List<City> tour = null;
             for (int i = 0; i < 10; i++) {
                 System.out.println("Running Nearest Neighbour Random");
                 double dist = g.NearestNeighbour_Random(minC-1);
                 avg += dist;
                 if(dist < min){
                     min = dist;
+                    tour = g.getTour();
                     //minC = city+1;
                 }
                 if(dist > max){
@@ -111,8 +92,17 @@ public class Execute {
             }
             System.out.println("Best Case : "+min+" Worst case: "+max+" Avg Case: "+(avg/10.0));
             //g.printPath();
+            System.out.println("Running 2 OPT First Improve...");
+            g.Two_Opt_FirstImp(tour,100 , 7);
+            g.printPath();
+
+            System.out.println("Running 2 OPT Best...");
+            g.NearestNeighbour_Random(city);
+            g.Two_Opt_BestImp(tour,100 , 7);
+            ////cut-off is the number of exchanges without improvement
+            g.printPath();
         }
-        else if(choice == 6){
+        else if(choice == 4){
             min = 9999999.9 ; max = 0.0;
             minC = 0; maxC = 0;
             for (int i = 0; i < 5; i++) {
@@ -135,12 +125,14 @@ public class Execute {
             System.out.println("Best Case : City- "+minC+"-"+min+" Worst case: City- "+maxC+"-"+max);
             min = 9999999.9 ; max = 0.0;
             double avg=0;
+            List<City> tour = null;
             for (int i = 0; i < 10; i++) {
                 System.out.println("Running Savings Random");
                 double dist = g.SavingsHeuristic_Random(minC-1);
                 avg += dist;
                 if(dist < min){
                     min = dist;
+                    tour = g.getTour();
                     //minC = city+1;
                 }
                 if(dist > max){
@@ -149,43 +141,39 @@ public class Execute {
                 }
             }
             System.out.println("Best Case : "+min+" Worst case: "+max+" Avg Case: "+(avg/10.0));
+            System.out.println("Running 2 OPT First Improve...");
+            g.Two_Opt_FirstImp(tour,100 , 7);
+            g.printPath();
 
+            System.out.println("Running 2 OPT Best...");
+            g.NearestNeighbour_Random(city);
+            g.Two_Opt_BestImp(tour,100 , 7);
+            ////cut-off is the number of exchanges without improvement
+            g.printPath();
         }
         else if(choice == 5){
-            min = 9999999.9 ; max = 0.0;
-            minC = 0; maxC = 0;
-            for (int i = 0; i < 5; i++) {
-                city  =random.nextInt(n);
-                System.out.println("Statring at city: "+ (city+1) +"-> ("+cities.get(city).getX()+","+cities.get(city).getY()+")");
-
-                System.out.println("Running Savings Heuristic");
-                double dist =  g.SavingsHeuristic(city);
-                //g.printPath();
-
-                if(dist < min){
-                    min = dist;
-                    minC = city+1;
-                }
-                if(dist > max){
-                    max = dist;
-                    maxC = city+1;
-                }
-            }
-            System.out.println("Best Case : City- "+minC+"-"+min+" Worst case: City- "+maxC+"-"+max);
-        }
-        else if(choice == 7){
             System.out.println("Statring at city: "+ (city+1) +"-> ("+cities.get(city).getX()+","+cities.get(city).getY()+")");
             System.out.println("Running 2 OPT ...");
-            //g.Two_Opt(city , 100);
-            g.Two_Opt_Nearest(city , 100 , 7);
+            g.NearestNeighbour_Random(city);
+            g.Two_Opt_FirstImp(g.getTour(), 100 , 7);
              ////cut-off is the number of exchanges without improvement
             g.printPath();
         }
-        else if(choice == 8){
+        else if(choice == 6){
+            System.out.println("Statring at city: "+ (city+1) +"-> ("
+                    +cities.get(city).getX()+","+cities.get(city).getY()+")");
+            System.out.println("Running 2 OPT ...");
+            g.NearestNeighbour_Random(city);
+            g.Two_Opt_BestImp(g.getTour(), 100 , 7);
+            ////cut-off is the number of exchanges without improvement
+            g.printPath();
+        }
+        else if(choice == 7){
             System.out.println("Statring at city: "+ (city+1) +"-> ("+cities.get(city).getX()+","+cities.get(city).getY()+")");
             System.out.println("Running 3-OPT ...");
             g.Three_Opt(city,50);
             g.printPath();
+
         }
 
 
