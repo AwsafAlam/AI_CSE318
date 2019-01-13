@@ -176,7 +176,8 @@ public class Execute {
         else if(choice == 7){
             System.out.println("Statring at city: "+ (city+1) +"-> ("+cities.get(city).getX()+","+cities.get(city).getY()+")");
             System.out.println("Running 2 OPT ...");
-            g.Two_Opt(city , 100);
+            //g.Two_Opt(city , 100);
+            g.Two_Opt_Nearest(city , 100 , 7);
              ////cut-off is the number of exchanges without improvement
             g.printPath();
         }

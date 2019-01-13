@@ -1,12 +1,31 @@
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class City {
     private double x;
     private double y;
     private City parent;
     private boolean visited;
-    private List<City> neighbours;
+    private Map<Double , City> neighbour;
+
+    public City(double x, double y) {
+        this.x = x;
+        this.y = y;
+        this.visited = false;
+        this.parent = null;
+        this.neighbour = new HashMap<>();
+    }
+
+    public void addNeighbour(double d, City c){
+        neighbour.put(d,c);
+    }
+
+    public Map<Double, City> getNeighbour() {
+        return neighbour;
+    }
+
+    public void setNeighbour(Map<Double, City> neighbour) {
+        this.neighbour = neighbour;
+    }
 
     public double getX() {
         return x;
@@ -39,12 +58,6 @@ public class City {
         return Objects.hash(getX(), getY());
     }
 
-    public City(double x, double y) {
-        this.x = x;
-        this.y = y;
-        this.visited = false;
-        this.parent = null;
-    }
 
     public boolean isVisited() {
         return visited;

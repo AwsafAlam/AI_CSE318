@@ -9,14 +9,30 @@ public class Graph {
 
     private List<City> cities;
     private static final double INF = 999999999.0;
-    List<City> tour;
-    List<City> new_tour;
 
+    private List<City> tour;
+    private List<City> new_tour;
+
+    public List<City> getTour() {
+        return tour;
+    }
     private DecimalFormat df = new DecimalFormat("#.###");
 
     public Graph(List<City> cities) {
         this.cities = cities;
+        for (int i = 0; i < cities.size(); i++) {
+//            System.out.print("("+cities.get(i).getX()+","+cities.get(i).getY()+") : ");
 
+            for (int j = 0; j < cities.size(); j++) {
+                // Generate graph for cities
+                double dist = calculateDistance(cities.get(i),cities.get(j));
+                System.out.print("("+cities.get(j).getX()+","+cities.get(j).getY()+" <-> "+
+                        df.format(dist) +")  ");
+                cities.get(i).addNeighbour(dist , cities.get(j));
+
+            }
+
+        }
     }
 
     public void printGraph(){
@@ -508,23 +524,6 @@ public class Graph {
     }
 
 
-
-//    Input: A complete graph with distances defined on the edges and a route and its distance
-//    Output: A 2-opt optimal route
-//      1: repeat
-//      2: for i ∈ Nodes eligible to be swapped do
-//      3: for j ∈ Nodes eligible to be swapped such that j > i do
-//      4: Apply 2-opt swap to i and j: create the new route as follows:
-//      5: Take route upto i and add in order
-//      6: Take route from j to i (both including) and add in reverse order
-//      7: Take the route after k and add in order
-//      8: Calculate new distance
-//      9: if new distance < distance then
-//      10: Update route to include new ordering
-//      11: end if
-//      12: end for
-//      13: end for
-//            14: until no improvement is made
     public void Two_Opt(int city,int cut_off){
         NearestNeighbour(city);
 
@@ -580,11 +579,70 @@ public class Graph {
         }
     }
 
+    public double Two_Opt_Nearest(int city,int cut_off, int neigh_num){
+        NearestNeighbour_Random(city);
+
+        // Get tour size
+        int size = tour.size();
+        new_tour = new ArrayList<>();
+
+        for (int i=0;i<size;i++)
+        {
+
+            new_tour.add(tour.get(i));
+        }
+
+        // repeat until no improvement is made
+        int improve = 0;
+
+
+        while ( improve < cut_off )
+        {
+            double best_distance = getTourDistance(tour);
+
+            for ( int i = 1; i < size - 1; i++ )
+            {
+                Map<Double , City> Nlist = cities.get(i).getNeighbour();
+                int count = 0;
+                for (double d:Nlist.keySet()) {
+                    City c = Nlist.get(d);
+                    int k = cities.indexOf(c);
+                    TwoOptSwap( i, k );
+                    double new_distance = getTourDistance(new_tour);
+
+                    if ( new_distance < best_distance )
+                    {
+                        // Improvement found so reset
+                        improve = 0;
+                        tour = new ArrayList<>();
+                        for (int j=0;j<size;j++)
+                        {
+                            tour.add(j,new_tour.get(j));
+                        }
+
+                        best_distance = new_distance;
+
+                        // Update the display
+                        System.out.println("Improment found: "+Double.toString(best_distance)+" it: "+ Integer.toString(count));
+                    }
+
+                    count++;
+                    if(count >= neigh_num){
+                        break;
+                    }
+                }
+            }
+
+            improve ++;
+
+        }
+        return getTourDistance(tour);
+    }
 
     private void TwoOptSwap( int i, int k )
     {
         int size = tour.size();
-
+        new_tour = new ArrayList<>();
         // 1. take route[0] to route[i-1] and add them in order to new_route
         for ( int c = 0; c <= i - 1; ++c )
         {
