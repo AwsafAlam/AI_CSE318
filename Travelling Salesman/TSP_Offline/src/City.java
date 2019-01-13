@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Objects;
 
 public class City {
@@ -5,6 +6,7 @@ public class City {
     private double y;
     private City parent;
     private boolean visited;
+    private List<City> neighbours;
 
     public double getX() {
         return x;
