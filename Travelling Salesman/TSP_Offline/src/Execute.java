@@ -20,7 +20,7 @@ public class Execute {
             double y = sc.nextDouble();
             cities.add(new City(x,y));
         }
-        Graph g = new Graph(cities);
+        Graph g = new Graph(cities , cities.size());
 
 
         System.out.println("Choose Heuristic to run :\n" +

@@ -2,10 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5523623f-edd6-435f-93e8-73ab48b4810b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../A* Search/Offline/N_puzzle/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../A* Search/Offline/N_puzzle/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TSP_Offline/Execute.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TSP_Offline/Execute.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TSP_Offline/Graph.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TSP_Offline/Graph.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Execute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Execute.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Graph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../berlin52.tsp" beforeDir="false" afterPath="$PROJECT_DIR$/../berlin52.tsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../burma14.tsp" beforeDir="false" afterPath="$PROJECT_DIR$/../burma14.tsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../st70.tsp" beforeDir="false" afterPath="$PROJECT_DIR$/../st70.tsp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,15 +37,16 @@
     <session id="1594307226">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="8" />
           <entry key="project.open.time.15" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.68" value="2" />
+          <entry key="project.open.time.69" value="1" />
           <entry key="project.open.time.70" value="1" />
           <entry key="project.open.time.71" value="1" />
           <entry key="project.open.time.73" value="1" />
-          <entry key="project.opened" value="8" />
+          <entry key="project.opened" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -58,14 +64,14 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="6" />
-          <entry key="java" value="6603" />
-          <entry key="txt" value="55" />
+          <entry key="java" value="6662" />
+          <entry key="txt" value="62" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="6603" />
-          <entry key="PLAIN_TEXT" value="61" />
+          <entry key="JAVA" value="6662" />
+          <entry key="PLAIN_TEXT" value="68" />
         </counts>
       </usages-collector>
     </session>
@@ -75,10 +81,9 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Graph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="489" column="42" selection-start-line="489" selection-start-column="42" selection-end-line="489" selection-end-column="42" />
+            <state relative-caret-position="1476">
+              <caret line="681" column="46" selection-start-line="681" selection-start-column="46" selection-end-line="681" selection-end-column="46" />
               <folding>
-                <element signature="method#Graph#0;class#Graph#0" />
                 <element signature="method#printGraph#0;class#Graph#0" />
                 <element signature="method#calculateDistance#0;class#Graph#0" />
                 <element signature="method#getDistanceFromLatLonInKm#0;class#Graph#0" />
@@ -87,11 +92,13 @@
                 <element signature="method#NearestNeighbour#0;class#Graph#0" />
                 <element signature="method#NearestNeighbour_Random#0;class#Graph#0" />
                 <element signature="method#SavingsHeuristic_Random#0;class#Graph#0" />
+                <element signature="method#SavingsHeuristic#0;class#Graph#0" />
                 <element signature="method#Two_Opt#0;class#Graph#0" />
+                <element signature="method#Two_Opt_BestImp#0;class#Graph#0" />
                 <element signature="method#TwoOptSwap#0;class#Graph#0" />
                 <element signature="method#Three_Opt#0;class#Graph#0" />
+                <element signature="method#getTourDistance#0;class#Graph#0" />
                 <element signature="method#sortByComparator#0;class#Graph#0" />
-                <element signature="method#printPath#1;class#Graph#0" />
               </folding>
             </state>
           </provider>
@@ -106,20 +113,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/input.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="3" column="17" lean-forward="true" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
+            <state relative-caret-position="499">
+              <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Execute.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="252" column="29" lean-forward="true" selection-start-line="252" selection-start-column="29" selection-end-line="252" selection-end-column="29" />
+            <state relative-caret-position="2106">
+              <caret line="122" column="66" selection-start-line="122" selection-start-column="66" selection-end-line="122" selection-end-column="66" />
             </state>
           </provider>
         </entry>
@@ -140,9 +147,9 @@
       <list>
         <option value="$PROJECT_DIR$/src/DistanceComparator.java" />
         <option value="$PROJECT_DIR$/src/City.java" />
+        <option value="$PROJECT_DIR$/src/Execute.java" />
         <option value="$PROJECT_DIR$/src/Graph.java" />
         <option value="$PROJECT_DIR$/input.txt" />
-        <option value="$PROJECT_DIR$/src/Execute.java" />
       </list>
     </option>
   </component>
@@ -166,6 +173,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -183,13 +191,13 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1547441050876" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1547450758251" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../UnitTesting" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="show.migrate.to.gradle.popup" value="false" />
@@ -247,12 +255,13 @@
       <workItem from="1547196217705" duration="19630000" />
       <workItem from="1547373129109" duration="2265000" />
       <workItem from="1547387585883" duration="22738000" />
-      <workItem from="1547434369873" duration="6679000" />
+      <workItem from="1547434369873" duration="16321000" />
+      <workItem from="1547549668029" duration="614000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75514000" />
+    <option name="totallyTimeSpent" value="85770000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -264,10 +273,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1366" height="743" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13560607" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13713981" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -276,7 +284,7 @@
       <window_info id="UI Designer" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32972974" />
-      <window_info anchor="bottom" auto_hide="true" x="0" y="40" width="1366" height="728" id="Run" order="2" type="FLOATING" weight="0.0010810811" />
+      <window_info anchor="bottom" auto_hide="true" x="0" y="47" width="1366" height="698" id="Run" order="2" type="FLOATING" weight="0.0010810811" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -322,19 +330,11 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/DistanceComparator.java" />
-    <entry file="file://$PROJECT_DIR$/src/City.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Graph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="489" column="42" selection-start-line="489" selection-start-column="42" selection-end-line="489" selection-end-column="42" />
+        <state relative-caret-position="1476">
+          <caret line="681" column="46" selection-start-line="681" selection-start-column="46" selection-end-line="681" selection-end-column="46" />
           <folding>
-            <element signature="method#Graph#0;class#Graph#0" />
             <element signature="method#printGraph#0;class#Graph#0" />
             <element signature="method#calculateDistance#0;class#Graph#0" />
             <element signature="method#getDistanceFromLatLonInKm#0;class#Graph#0" />
@@ -343,26 +343,35 @@
             <element signature="method#NearestNeighbour#0;class#Graph#0" />
             <element signature="method#NearestNeighbour_Random#0;class#Graph#0" />
             <element signature="method#SavingsHeuristic_Random#0;class#Graph#0" />
+            <element signature="method#SavingsHeuristic#0;class#Graph#0" />
             <element signature="method#Two_Opt#0;class#Graph#0" />
+            <element signature="method#Two_Opt_BestImp#0;class#Graph#0" />
             <element signature="method#TwoOptSwap#0;class#Graph#0" />
             <element signature="method#Three_Opt#0;class#Graph#0" />
+            <element signature="method#getTourDistance#0;class#Graph#0" />
             <element signature="method#sortByComparator#0;class#Graph#0" />
-            <element signature="method#printPath#1;class#Graph#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/input.txt">
+    <entry file="file://$PROJECT_DIR$/src/City.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="17" lean-forward="true" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
+        <state relative-caret-position="342">
+          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Execute.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="252" column="29" lean-forward="true" selection-start-line="252" selection-start-column="29" selection-end-line="252" selection-end-column="29" />
+        <state relative-caret-position="2106">
+          <caret line="122" column="66" selection-start-line="122" selection-start-column="66" selection-end-line="122" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/input.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="499">
+          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
         </state>
       </provider>
     </entry>

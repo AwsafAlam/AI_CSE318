@@ -18,12 +18,12 @@ public class Graph {
     }
     private DecimalFormat df = new DecimalFormat("#.###");
 
-    public Graph(List<City> cities) {
+    public Graph(List<City> cities,int bound) {
         this.cities = cities;
         for (int i = 0; i < cities.size(); i++) {
 //            System.out.print("("+cities.get(i).getX()+","+cities.get(i).getY()+") : ");
 
-            for (int j = 0; j < cities.size(); j++) {
+            for (int j = 0; j < bound; j++) {
                 // Generate graph for cities
                 double dist = calculateDistance(cities.get(i),cities.get(j));
                 System.out.print("("+cities.get(j).getX()+","+cities.get(j).getY()+" <-> "+
@@ -778,7 +778,7 @@ public class Graph {
                         if (new_distance < best_distance){
                             // Improvement found so reset
                             improve = 0;
-
+                            tour = new ArrayList<>();
                             for (int p=0;p<size;p++)
                             {
                                 tour.add(p,new_tour.get(p));
@@ -859,10 +859,5 @@ public class Graph {
         System.out.println("Tour distance : "+ df.format(getTourDistance(tour)));
     }
 
-    public void printPath(City c){
-        while (c != null){
-            System.out.print("("+c.getX()+","+c.getY()+") <-> ");
-            c = c.getParent();
-        }
-    }
+
 }
