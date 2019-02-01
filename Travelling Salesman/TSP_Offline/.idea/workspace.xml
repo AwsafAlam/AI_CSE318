@@ -2,15 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5523623f-edd6-435f-93e8-73ab48b4810b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TSP_Offline/Execute.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TSP_Offline/Execute.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TSP_Offline/Graph.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TSP_Offline/Graph.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Execute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Execute.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Graph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../berlin52.tsp" beforeDir="false" afterPath="$PROJECT_DIR$/../berlin52.tsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../burma14.tsp" beforeDir="false" afterPath="$PROJECT_DIR$/../burma14.tsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../st70.tsp" beforeDir="false" afterPath="$PROJECT_DIR$/../st70.tsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Adverserial Search/Mancala/src/Board.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Adverserial Search/Mancala/src/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Adverserial Search/Mancala/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Adverserial Search/Mancala/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Adverserial Search/Mancala/out/production/Mancala/Mancala.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../Adverserial Search/Mancala/out/production/Mancala/Mancala.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Adverserial Search/Mancala/src/Mancala.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Adverserial Search/Mancala/src/Mancala.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../berlin52.tsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../burma14.tsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../st70.tsp" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,16 +36,17 @@
     <session id="1594307226">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="8" />
+          <entry key="project.closed" value="9" />
           <entry key="project.open.time.15" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.4" value="1" />
+          <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.68" value="2" />
           <entry key="project.open.time.69" value="1" />
           <entry key="project.open.time.70" value="1" />
           <entry key="project.open.time.71" value="1" />
           <entry key="project.open.time.73" value="1" />
-          <entry key="project.opened" value="9" />
+          <entry key="project.opened" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -113,20 +113,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/input.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="499">
+            <state relative-caret-position="501">
               <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Execute.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2106">
-              <caret line="122" column="66" selection-start-line="122" selection-start-column="66" selection-end-line="122" selection-end-column="66" />
+            <state relative-caret-position="42">
+              <caret line="36" column="35" selection-start-line="36" selection-start-column="35" selection-end-line="36" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -160,10 +160,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="416" />
-    <option name="y" value="68" />
-    <option name="width" value="673" />
-    <option name="height" value="555" />
+    <option name="width" value="1280" />
+    <option name="height" value="800" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -173,6 +171,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -190,7 +189,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -257,11 +255,12 @@
       <workItem from="1547387585883" duration="22738000" />
       <workItem from="1547434369873" duration="16321000" />
       <workItem from="1547549668029" duration="614000" />
+      <workItem from="1549044476419" duration="612000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="85770000" />
+    <option name="totallyTimeSpent" value="86382000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -274,8 +273,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13713981" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13874066" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -361,17 +361,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Execute.java">
+    <entry file="file://$PROJECT_DIR$/input.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2106">
-          <caret line="122" column="66" selection-start-line="122" selection-start-column="66" selection-end-line="122" selection-end-column="66" />
+        <state relative-caret-position="501">
+          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/input.txt">
+    <entry file="file://$PROJECT_DIR$/src/Execute.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="54" column="5" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
+        <state relative-caret-position="42">
+          <caret line="36" column="35" selection-start-line="36" selection-start-column="35" selection-end-line="36" selection-end-column="35" />
         </state>
       </provider>
     </entry>
