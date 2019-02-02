@@ -3,7 +3,6 @@ import java.util.Random;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static jdk.nashorn.internal.runtime.regexp.joni.encoding.CharacterType.D;
 
 public class Player {
 
@@ -53,11 +52,11 @@ public class Player {
         //makemove(move);
     }
 
-    public void makemove(int pos) {
+    public boolean makemove(int pos) {
         freeturn = false;
         if(playerBin.get(pos) == 0){
             System.out.println("Invalid move");
-            return;
+            return false;
         }
         if(isOpponent){
             myStorage = myboard.getLowerBinStorage();
@@ -127,8 +126,9 @@ public class Player {
             {
                 freeturn = true;
                 System.out.println("Free Turn ------------------------");
-                makemove(new Random().nextInt(5));
-                break;
+                //makemove(new Random().nextInt(5));
+                return true;
+                //break;
             }
 
             int val = curr_Bin.get(newPos);
@@ -144,6 +144,7 @@ public class Player {
             myboard.setLowerBinStorage(opponentStorage);
         }
         //myboard.printBoard();
+        return false;
     }
 
     public int MIN_MAX(Board tempBoard, int depth, boolean ismax, int alpha, int beta)
@@ -174,9 +175,16 @@ public class Player {
 
             for(int i = 0 ; i < Board.getTotalBins(); i++)
             {
-                makemove(i); //TODO: need to also assign the plaer here
+                boolean turn = makemove(i);
+                if(turn) //TODO: need to also assign the plaer here
+                {
+                    curr_value = MIN_MAX(tempBoard,depth , true , alpha , beta);
+                }
+                else{
+                    curr_value = MIN_MAX(tempBoard, depth - 1, false, alpha, beta);
 
-                curr_value = MIN_MAX(tempBoard, depth - 1, false, alpha, beta);
+                }
+
 
                 if(curr_value > best_value) {
                     best_value = curr_value;
