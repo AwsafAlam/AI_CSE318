@@ -99,12 +99,12 @@ public class Player {
             return false;
         }
         if(isOpponent){
-            myStorage = myboard.getLowerBinStorage();
-            opponentStorage = myboard.getUpperBinStorage();
-        }
-        else{
             myStorage = myboard.getUpperBinStorage();
             opponentStorage = myboard.getLowerBinStorage();
+        }
+        else{
+            myStorage = myboard.getLowerBinStorage();
+            opponentStorage = myboard.getUpperBinStorage();
         }
 
         int stones = playerBin.get(pos);
@@ -115,11 +115,13 @@ public class Player {
 
             if(curr_Bin.equals(playerBin))
             {
+                System.out.println("DEBUG: playrBin "+i);
                 if(isOpponent)
                 {
                     newPos--;
                     if(newPos == -1){
-                        newPos = 0;myStorage++;i++;
+                        newPos = 0;//myStorage++;i++;
+                        i++;opponentStorage++;
                         curr_Bin = opponentBin;
                     }
                 }
@@ -145,6 +147,7 @@ public class Player {
             }
             else
             {
+                System.out.println("DEBUG: opponentBin "+i);
                 if(isOpponent)
                 {
                     newPos++;
@@ -152,6 +155,7 @@ public class Player {
                     {
                         newPos = 5;//skiping opponent storage
                         curr_Bin = playerBin;
+                        //opponentStorage++;i++;
                     }
                 }
                 else
@@ -160,6 +164,7 @@ public class Player {
                     if(newPos == -1){
                         newPos = 0;//skipping opponent storage
                         curr_Bin = playerBin;
+                        //opponentStorage++;i++;
                     }
                 }
             }
@@ -168,8 +173,15 @@ public class Player {
             {
                 freeturn++;
                 System.out.println("Free Turn ------------------------");
+                if(isOpponent){
+                    myboard.setLowerBinStorage(opponentStorage);
+                    myboard.setUpperBinStorage(myStorage);
+                }
+                else{
+                    myboard.setUpperBinStorage(opponentStorage);
+                    myboard.setLowerBinStorage(myStorage);
+                }
                 myboard.printBoard();
-                //makemove(new Random().nextInt(5));
                 return true;
                 //break;
             }
@@ -179,12 +191,12 @@ public class Player {
 
         }
         if(isOpponent){
-            myboard.setLowerBinStorage(myStorage);
-            myboard.setUpperBinStorage(opponentStorage);
+            myboard.setLowerBinStorage(opponentStorage);
+            myboard.setUpperBinStorage(myStorage);
         }
         else{
-            myboard.setUpperBinStorage(myStorage);
-            myboard.setLowerBinStorage(opponentStorage);
+            myboard.setUpperBinStorage(opponentStorage);
+            myboard.setLowerBinStorage(myStorage);
         }
         myboard.printBoard();
 
@@ -274,9 +286,9 @@ public class Player {
     private int evaluate(Board tempBoard) {
         // heuristic implementations
         if(isOpponent)
-            return Heuristic4(tempBoard);
+            return Heuristic3(tempBoard);
         else
-            return Heuristic1(tempBoard);
+            return Heuristic4(tempBoard);
     }
 
     private int Heuristic1(Board tempBoard){
