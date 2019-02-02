@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c0a9a161-2af6-407e-84ad-3c922890a961" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Mancala.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mancala.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -30,22 +31,24 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="java" value="4" />
+          <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JAVA" value="4" />
+          <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="2870" />
+          <entry key="java" value="3788" />
           <entry key="txt" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="2870" />
+          <entry key="JAVA" value="3788" />
           <entry key="PLAIN_TEXT" value="4" />
         </counts>
       </usages-collector>
@@ -53,11 +56,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Mancala.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="16" column="28" lean-forward="true" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
+            <state relative-caret-position="414">
+              <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -65,26 +68,31 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1224">
-              <caret line="112" column="26" selection-start-line="112" selection-start-column="26" selection-end-line="112" selection-end-column="26" />
+            <state relative-caret-position="190">
+              <caret line="46" column="28" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#Board#0;class#Board#0" />
+                <element signature="method#Board#1;class#Board#0" />
                 <element signature="method#initBoard#0;class#Board#0" />
                 <element signature="method#printtoFile#0;class#Board#0" />
+                <element signature="method#gameOver#0;class#Board#0" />
+                <element signature="method#collectLowerStones#0;class#Board#0" />
+                <element signature="method#collectUpperStones#0;class#Board#0" />
+                <element signature="method#generateMove#0;class#Board#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="180" column="33" selection-start-line="180" selection-start-column="33" selection-end-line="180" selection-end-column="33" />
+            <state relative-caret-position="165">
+              <caret line="240" column="62" selection-start-line="240" selection-start-column="62" selection-end-line="240" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#Player#0;class#Player#0" />
+                <element signature="method#getOpponentStorage#0;class#Player#0" />
+                <element signature="method#evaluate#0;class#Player#0" />
               </folding>
             </state>
           </provider>
@@ -102,6 +110,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>makemove</find>
+      <find>printBoard()</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -112,8 +121,8 @@
       <list>
         <option value="$PROJECT_DIR$/src/Game.java" />
         <option value="$PROJECT_DIR$/src/Board.java" />
-        <option value="$PROJECT_DIR$/src/Mancala.java" />
         <option value="$PROJECT_DIR$/src/Player.java" />
+        <option value="$PROJECT_DIR$/src/Mancala.java" />
       </list>
     </option>
   </component>
@@ -133,6 +142,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -149,11 +160,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SearchEverywhereHistoryKey" value="printBoard()&#9;PSI&#9;JAVA://Board#printBoard" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549063434285" />
@@ -207,18 +217,18 @@
       <workItem from="1548299653527" duration="593000" />
       <workItem from="1548706960166" duration="595000" />
       <workItem from="1549044047889" duration="11829000" />
-      <workItem from="1549128127232" duration="1457000" />
+      <workItem from="1549128127232" duration="8114000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21518000" />
+    <option name="totallyTimeSpent" value="28175000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.20530303" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20490928" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -227,14 +237,14 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5007576" side_tool="true" weight="0.32789558" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5007576" side_tool="true" visible="true" weight="0.41945946" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49924242" weight="0.32686085" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49924242" weight="0.3264865" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="bottom" id="Flutter Performance" order="12" side_tool="true" />
@@ -259,34 +269,46 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Game.java" />
-    <entry file="file://$PROJECT_DIR$/src/Mancala.java">
+    <entry file="file://$PROJECT_DIR$/output.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="16" column="28" lean-forward="true" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
+        <state relative-caret-position="72">
+          <caret line="4" column="27" lean-forward="true" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
-          <caret line="112" column="26" selection-start-line="112" selection-start-column="26" selection-end-line="112" selection-end-column="26" />
+        <state relative-caret-position="190">
+          <caret line="46" column="28" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#Board#0;class#Board#0" />
+            <element signature="method#Board#1;class#Board#0" />
             <element signature="method#initBoard#0;class#Board#0" />
             <element signature="method#printtoFile#0;class#Board#0" />
+            <element signature="method#gameOver#0;class#Board#0" />
+            <element signature="method#collectLowerStones#0;class#Board#0" />
+            <element signature="method#collectUpperStones#0;class#Board#0" />
+            <element signature="method#generateMove#0;class#Board#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="180" column="33" selection-start-line="180" selection-start-column="33" selection-end-line="180" selection-end-column="33" />
+        <state relative-caret-position="165">
+          <caret line="240" column="62" selection-start-line="240" selection-start-column="62" selection-end-line="240" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#Player#0;class#Player#0" />
+            <element signature="method#getOpponentStorage#0;class#Player#0" />
+            <element signature="method#evaluate#0;class#Player#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Mancala.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
         </state>
       </provider>
     </entry>
