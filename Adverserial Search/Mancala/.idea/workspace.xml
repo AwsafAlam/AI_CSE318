@@ -42,13 +42,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="3788" />
+          <entry key="java" value="4166" />
           <entry key="txt" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="3788" />
+          <entry key="JAVA" value="4166" />
           <entry key="PLAIN_TEXT" value="4" />
         </counts>
       </usages-collector>
@@ -56,11 +56,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Mancala.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+            <state relative-caret-position="162">
+              <caret line="9" column="35" lean-forward="true" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -68,31 +68,30 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="46" column="28" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="28" />
+            <state relative-caret-position="1820">
+              <caret line="190" column="43" lean-forward="true" selection-start-line="190" selection-start-column="43" selection-end-line="190" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#Board#1;class#Board#0" />
                 <element signature="method#initBoard#0;class#Board#0" />
                 <element signature="method#printtoFile#0;class#Board#0" />
                 <element signature="method#gameOver#0;class#Board#0" />
-                <element signature="method#collectLowerStones#0;class#Board#0" />
                 <element signature="method#collectUpperStones#0;class#Board#0" />
-                <element signature="method#generateMove#0;class#Board#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="240" column="62" selection-start-line="240" selection-start-column="62" selection-end-line="240" selection-end-column="62" />
+            <state relative-caret-position="-2718">
+              <caret line="14" column="26" lean-forward="true" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#getOpponentStorage#0;class#Player#0" />
-                <element signature="method#evaluate#0;class#Player#0" />
+                <element signature="method#Player#0;class#Player#0" />
+                <element signature="method#MIN_MAX#0;class#Player#0" />
               </folding>
             </state>
           </provider>
@@ -111,6 +110,10 @@
     <findStrings>
       <find>makemove</find>
       <find>printBoard()</find>
+      <find>DEBUG</find>
+      <find>freeturn</find>
+      <find>capture</find>
+      <find>cap</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -120,9 +123,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/Game.java" />
-        <option value="$PROJECT_DIR$/src/Board.java" />
-        <option value="$PROJECT_DIR$/src/Player.java" />
         <option value="$PROJECT_DIR$/src/Mancala.java" />
+        <option value="$PROJECT_DIR$/src/Player.java" />
+        <option value="$PROJECT_DIR$/src/Board.java" />
       </list>
     </option>
   </component>
@@ -217,12 +220,12 @@
       <workItem from="1548299653527" duration="593000" />
       <workItem from="1548706960166" duration="595000" />
       <workItem from="1549044047889" duration="11829000" />
-      <workItem from="1549128127232" duration="8114000" />
+      <workItem from="1549128127232" duration="10094000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28175000" />
+    <option name="totallyTimeSpent" value="30155000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
@@ -237,14 +240,14 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5007576" side_tool="true" visible="true" weight="0.41945946" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5010672" side_tool="true" visible="true" weight="0.3264865" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49924242" weight="0.3264865" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49893278" weight="0.5589189" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="bottom" id="Flutter Performance" order="12" side_tool="true" />
@@ -276,39 +279,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Mancala.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="35" lean-forward="true" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="46" column="28" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="28" />
+        <state relative-caret-position="1820">
+          <caret line="190" column="43" lean-forward="true" selection-start-line="190" selection-start-column="43" selection-end-line="190" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#Board#1;class#Board#0" />
             <element signature="method#initBoard#0;class#Board#0" />
             <element signature="method#printtoFile#0;class#Board#0" />
             <element signature="method#gameOver#0;class#Board#0" />
-            <element signature="method#collectLowerStones#0;class#Board#0" />
             <element signature="method#collectUpperStones#0;class#Board#0" />
-            <element signature="method#generateMove#0;class#Board#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="240" column="62" selection-start-line="240" selection-start-column="62" selection-end-line="240" selection-end-column="62" />
+        <state relative-caret-position="-2718">
+          <caret line="14" column="26" lean-forward="true" selection-start-line="14" selection-start-column="26" selection-end-line="14" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#getOpponentStorage#0;class#Player#0" />
-            <element signature="method#evaluate#0;class#Player#0" />
+            <element signature="method#Player#0;class#Player#0" />
+            <element signature="method#MIN_MAX#0;class#Player#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Mancala.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
         </state>
       </provider>
     </entry>
