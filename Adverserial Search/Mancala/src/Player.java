@@ -59,16 +59,13 @@ public class Player {
 
     public void selectMove(int choice){
         if(choice == 1){
-            // players selecting randomly
+            // Human input
             freeturn = 0;captured_stones=0;
-            Random random = new Random();
-            while(true){
-                boolean turn = makemove(random.nextInt(5));
-                if(turn)
-                    continue;
-                else
-                    break;
-            }
+            myboard.printBoard();
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Make your move : ");
+            while (makemove(sc.nextInt()));
+
         }
         else if(choice == 2){
             freeturn = 0;captured_stones=0;
@@ -84,12 +81,16 @@ public class Player {
 
         }
         else{
-            // Human input
+            // players selecting randomly
             freeturn = 0;captured_stones=0;
-            myboard.printBoard();
-            Scanner sc = new Scanner(System.in);
-            System.out.print("Make your move : ");
-            while (makemove(sc.nextInt()));
+            Random random = new Random();
+            while(true){
+                boolean turn = makemove(random.nextInt(5));
+                if(turn)
+                    continue;
+                else
+                    break;
+            }
         }
     }
 
@@ -219,11 +220,11 @@ public class Player {
         if(ismax)
         {
             best_value = -9999999;
-
+            List<Integer> player = backupBoard.getLowerBin();
             for(int i = 0 ; i < Board.getTotalBins(); i++)
             {
                 //boolean turn = makemove(i);
-                if(playerBin.get(i) != 0){
+                if(player.get(i) != 0){
 
                     boolean turn = backupBoard.generateMove(i, isOpponent);
 
@@ -251,17 +252,15 @@ public class Player {
                 }
             }
 
-            //set successor
-//            if(depth == D)
-//                __successor__ = successor;
-
         }
         else
         {
             best_value = 99999999;
+            List<Integer> oppo = backupBoard.getUpperBin();
+
             for(int i = 0; i < Board.getTotalBins(); i++)
             {
-                if(opponentBin.get(i) != 0) {
+                if(oppo.get(i) != 0) {
 
                     boolean turn = backupBoard.generateMove(i, !isOpponent);// For Min, play as the opponent of oppenent ie plays as myself
 

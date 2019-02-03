@@ -192,7 +192,7 @@ public class Board {
             opponentBin = this.getUpperBin();
         }
         if(playerBin.get(pos) == 0){
-            //System.out.println("Invalid move");
+            System.out.println("DEBUG : Gen Invalid move");
             return false;
         }
 

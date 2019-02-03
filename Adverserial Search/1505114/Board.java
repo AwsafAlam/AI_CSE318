@@ -45,16 +45,16 @@ public class Board {
     }
 
     public void printBoard(){
-        System.out.println("---------------------------\n");
+        System.out.println("------------------------------\n");
         for (int i = 0; i < TOTAL_BINS; i++) {
             System.out.print("( "+ upperBin.get(i)+" ) ");
         }
-        System.out.println("\n---------------------------\n");
+        System.out.println("\n------------------------------\n");
 
         for (int i = 0; i < TOTAL_BINS; i++) {
             System.out.print("( "+ lowerBin.get(i)+" ) ");
         }
-        System.out.println("\n---------------------------\nStorage : "+ upperBinStorage +"  Opponent Store : "+ lowerBinStorage);
+        System.out.println("\n------------------------------\nUpper Bin : "+ upperBinStorage +"  Lower Bin : "+ lowerBinStorage);
 
 
     }
