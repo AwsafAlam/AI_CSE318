@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c0a9a161-2af6-407e-84ad-3c922890a961" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../1505114/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/../1505114/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../1505114/Mancala.java" beforeDir="false" afterPath="$PROJECT_DIR$/../1505114/Mancala.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../1505114/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/../1505114/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Mancala/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Mancala/Board.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Mancala/Mancala.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Mancala/Mancala.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Mancala/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Mancala/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Mancala.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mancala.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -51,13 +43,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="5445" />
+          <entry key="java" value="5826" />
           <entry key="txt" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="5445" />
+          <entry key="JAVA" value="5826" />
           <entry key="PLAIN_TEXT" value="4" />
         </counts>
       </usages-collector>
@@ -80,8 +72,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Board.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1602">
-              <caret line="183" column="36" selection-start-line="183" selection-start-column="36" selection-end-line="183" selection-end-column="36" />
+            <state relative-caret-position="283">
+              <caret line="295" column="14" selection-start-line="295" selection-start-column="14" selection-end-line="295" selection-end-column="14" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#Board#1;class#Board#0" />
@@ -98,15 +90,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="219" column="15" selection-start-line="219" selection-start-column="15" selection-end-line="219" selection-end-column="15" />
+            <state relative-caret-position="-2760">
+              <caret line="71" column="29" lean-forward="true" selection-start-line="71" selection-start-column="29" selection-end-line="71" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#getMyStorage#0;class#Player#0" />
                 <element signature="method#getOpponentStorage#0;class#Player#0" />
                 <element signature="method#Player#0;class#Player#0" />
-                <element signature="method#selectMove#0;class#Player#0" />
-                <element signature="method#makemove#0;class#Player#0" />
               </folding>
             </state>
           </provider>
@@ -240,15 +230,16 @@
       <workItem from="1549128127232" duration="15696000" />
       <workItem from="1549164765367" duration="3248000" />
       <workItem from="1549186810247" duration="4459000" />
-      <workItem from="1549208754268" duration="928000" />
+      <workItem from="1549208754268" duration="5168000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44392000" />
+    <option name="totallyTimeSpent" value="48632000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15795091" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -259,14 +250,14 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.5030303" side_tool="true" weight="0.16972972" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5030303" side_tool="true" visible="true" weight="0.1827027" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.4969697" visible="true" weight="0.3545946" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4969697" weight="0.3545946" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32972974" />
       <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="bottom" id="Flutter Performance" order="12" side_tool="true" />
@@ -310,8 +301,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Board.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1602">
-          <caret line="183" column="36" selection-start-line="183" selection-start-column="36" selection-end-line="183" selection-end-column="36" />
+        <state relative-caret-position="283">
+          <caret line="295" column="14" selection-start-line="295" selection-start-column="14" selection-end-line="295" selection-end-column="14" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#Board#1;class#Board#0" />
@@ -326,15 +317,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="219" column="15" selection-start-line="219" selection-start-column="15" selection-end-line="219" selection-end-column="15" />
+        <state relative-caret-position="-2760">
+          <caret line="71" column="29" lean-forward="true" selection-start-line="71" selection-start-column="29" selection-end-line="71" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#getMyStorage#0;class#Player#0" />
             <element signature="method#getOpponentStorage#0;class#Player#0" />
             <element signature="method#Player#0;class#Player#0" />
-            <element signature="method#selectMove#0;class#Player#0" />
-            <element signature="method#makemove#0;class#Player#0" />
           </folding>
         </state>
       </provider>

@@ -180,19 +180,19 @@ public class Board {
         int myStorage,opponentStorage;
         List<Integer> playerBin,opponentBin;
         if(isOpponent){
-            myStorage = getLowerBinStorage();
-            opponentStorage = getUpperBinStorage();
+            myStorage = getUpperBinStorage();
+            opponentStorage = getLowerBinStorage();
             playerBin = this.getUpperBin();
             opponentBin = this.getLowerBin();
         }
         else{
-            myStorage = this.getUpperBinStorage();
-            opponentStorage = this.getLowerBinStorage();
+            myStorage = this.getLowerBinStorage();
+            opponentStorage = this.getUpperBinStorage();
             playerBin = this.getLowerBin();
             opponentBin = this.getUpperBin();
         }
         if(playerBin.get(pos) == 0){
-            //System.out.println("Invalid move");
+            System.out.println("DEBUG : Gen Invalid move");
             return false;
         }
 
@@ -273,6 +273,123 @@ public class Board {
             this.setLowerBinStorage(opponentStorage);
         }
         //myboard.printBoard();
+        return false;
+    }
+
+    public boolean generateNextMove(int pos , boolean isOpponent){
+        boolean freeturn = false;
+        int myStorage,opponentStorage;
+        List<Integer> playerBin,opponentBin;
+        if(isOpponent){
+            myStorage = getUpperBinStorage();
+            opponentStorage = getLowerBinStorage();
+            playerBin = this.getUpperBin();
+            opponentBin = this.getLowerBin();
+        }
+        else{
+            myStorage = this.getLowerBinStorage();
+            opponentStorage = this.getUpperBinStorage();
+            playerBin = this.getLowerBin();
+            opponentBin = this.getUpperBin();
+        }
+        if(playerBin.get(pos) == 0){
+            //System.out.println("DEBUG : Gen Invalid move");
+            return false;
+        }
+
+        int stones = playerBin.get(pos);
+        playerBin.set(pos,0);
+        int newPos = pos;
+        List<Integer> curr_Bin = playerBin;
+        for (int i = 0; i < stones; i++) {
+
+            if(curr_Bin.equals(playerBin))
+            {
+                //System.out.println("DEBUG: playrBin "+i);
+                if(isOpponent)
+                {
+                    newPos--;
+                    if(newPos == -1){
+                        newPos = 0;myStorage++;i++;
+                        //i++;opponentStorage++;
+                        curr_Bin = opponentBin;
+                    }
+                }
+                else
+                {
+                    newPos++;
+                    if(newPos == 6)
+                    {
+                        newPos = 5;myStorage++;i++;
+                        curr_Bin = opponentBin;
+                    }
+                }
+                if(curr_Bin.get(newPos) == 0 && i == stones -1){
+                    //capture all stones from opponent
+                    System.out.println("Captured stone ---------");
+                    //captured_stones += opponentBin.get(newPos) + 1;
+                    myStorage += opponentBin.get(newPos) + 1;
+                    opponentBin.set(newPos , 0);
+                    //myboard.printBoard();
+                    continue;
+                }
+
+            }
+            else
+            {
+                //System.out.println("DEBUG: opponentBin "+i);
+                if(isOpponent)
+                {
+                    newPos++;
+                    if(newPos == 6)
+                    {
+                        newPos = 5;//skiping opponent storage
+                        curr_Bin = playerBin;
+                        //opponentStorage++;i++;
+                    }
+                }
+                else
+                {
+                    newPos--;
+                    if(newPos == -1){
+                        newPos = 0;//skipping opponent storage
+                        curr_Bin = playerBin;
+                        //opponentStorage++;i++;
+                    }
+                }
+            }
+
+            if(i==stones)
+            {
+                //freeturn++;
+                System.out.println("Free Turn ------------------------");
+                if(isOpponent){
+                    this.setUpperBinStorage(myStorage);
+                    this.setLowerBinStorage(opponentStorage);
+                }
+                else{
+                    this.setLowerBinStorage(myStorage);
+                    this.setUpperBinStorage(opponentStorage);
+                }
+                //myboard.printBoard();
+                return true;
+                //break;
+            }
+
+            int val = curr_Bin.get(newPos);
+            curr_Bin.set(newPos,val+1);
+
+        }
+        if(isOpponent){
+            this.setUpperBinStorage(myStorage);
+            this.setLowerBinStorage(opponentStorage);
+        }
+        else{
+            this.setLowerBinStorage(myStorage);
+            this.setUpperBinStorage(opponentStorage);
+        }
+        //myboard.printBoard();
+
         return false;
     }
 }

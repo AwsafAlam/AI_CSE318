@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -8,6 +9,7 @@ import static java.lang.Math.min;
 
 public class Player {
 
+    private static final int DEPTH_CUT_OFF = 12;
     private Board myboard;
     private boolean isOpponent;
     private List<Integer> playerBin;
@@ -69,13 +71,21 @@ public class Player {
         }
         else if(choice == 2){
             freeturn = 0;captured_stones=0;
-            while(true){
-                //System.out.println("...MINMAX called...");
-                MIN_MAX(myboard,6,true,-9999999,9999999); //TODO: Pass in a new reassigned board, not original one.
-                boolean turn = makemove(successor);
-                if(turn)
-                    continue;
-                else
+            Date date = new Date();
+            long timeMilli = date.getTime();
+            int depth = 1;
+
+            while (date.getTime() - timeMilli < 1500){//iterative deepening
+                while(true){
+                    MIN_MAX(myboard,depth,true,-9999999,9999999); //TODO: Pass in a new reassigned board, not original one.
+                    boolean turn = makemove(successor);
+                    if(turn)
+                        continue;
+                    else
+                        break;
+                }
+                depth++;
+                if(depth >= DEPTH_CUT_OFF)
                     break;
             }
 
@@ -98,7 +108,7 @@ public class Player {
         //System.out.println("DEBUG: Makemove called... "+pos);
 
         if(playerBin.get(pos) == 0){
-            System.out.println("Invalid move");
+            //System.out.println("Invalid move");
             return false;
         }
         if(isOpponent){
@@ -143,7 +153,7 @@ public class Player {
                     captured_stones += opponentBin.get(newPos) + 1;
                     myStorage += opponentBin.get(newPos) + 1;
                     opponentBin.set(newPos , 0);
-                    //myboard.printBoard();
+                    myboard.printBoard();
                     continue;
                 }
 
@@ -184,7 +194,7 @@ public class Player {
                     myboard.setLowerBinStorage(myStorage);
                     myboard.setUpperBinStorage(opponentStorage);
                 }
-                //myboard.printBoard();
+                myboard.printBoard();
                 return true;
                 //break;
             }
@@ -201,7 +211,7 @@ public class Player {
             myboard.setLowerBinStorage(myStorage);
             myboard.setUpperBinStorage(opponentStorage);
         }
-        //myboard.printBoard();
+        myboard.printBoard();
 
         return false;
     }
@@ -212,7 +222,6 @@ public class Player {
             return evaluate(tempBoard);
 
         Board backupBoard = new Board(tempBoard);
-
         int curr_value, best_value;
 
         boolean f = false;
@@ -220,23 +229,27 @@ public class Player {
         if(ismax)
         {
             best_value = -9999999;
-            List<Integer> player = backupBoard.getLowerBin();
+//            List<Integer> playerBin;
+//            if(isOpponent)
+//                playerBin = backupBoard.getUpperBin();
+//            else
+//                playerBin = backupBoard.getLowerBin();
+
             for(int i = 0 ; i < Board.getTotalBins(); i++)
             {
                 //boolean turn = makemove(i);
-                if(player.get(i) != 0){
+                if(playerBin.get(i) != 0){
 
-                    boolean turn = backupBoard.generateMove(i, isOpponent);
+                    boolean turn = backupBoard.generateNextMove(i, isOpponent);
 
                     if(turn) //TODO: need to also assign the player here
                     {
-                        curr_value = MIN_MAX(backupBoard,depth -1, true , alpha , beta);
+                        curr_value = MIN_MAX(backupBoard,depth -1, true , alpha , beta );
                     }
                     else{
-                        curr_value = MIN_MAX(backupBoard, depth - 1, false, alpha, beta);
+                        curr_value = MIN_MAX(backupBoard, depth - 1, false, alpha, beta );
 
                     }
-
 
                     if(curr_value > best_value) {
                         best_value = curr_value;
@@ -256,13 +269,17 @@ public class Player {
         else
         {
             best_value = 99999999;
-            List<Integer> oppo = backupBoard.getUpperBin();
+//            List<Integer> opponentBin;
+//            if(isOpponent)
+//                opponentBin = backupBoard.getLowerBin();
+//            else
+//                opponentBin = backupBoard.getUpperBin();
 
             for(int i = 0; i < Board.getTotalBins(); i++)
             {
-                if(oppo.get(i) != 0) {
+                if(opponentBin.get(i) != 0) {
 
-                    boolean turn = backupBoard.generateMove(i, !isOpponent);// For Min, play as the opponent of oppenent ie plays as myself
+                    boolean turn = backupBoard.generateNextMove(i, !isOpponent);// For Min, play as the opponent of oppenent ie plays as myself
 
                     if (turn) {
                         curr_value = MIN_MAX(backupBoard, depth - 1, false, alpha, beta);
