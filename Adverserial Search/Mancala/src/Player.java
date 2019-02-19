@@ -149,7 +149,7 @@ public class Player {
                 }
                 if(curr_Bin.get(newPos) == 0 && i == stones -1){
                     //capture all stones from opponent
-                    System.out.println("Captured stone ---------");
+                    System.out.println("Captured stone --");
                     captured_stones += opponentBin.get(newPos) + 1;
                     myStorage += opponentBin.get(newPos) + 1;
                     opponentBin.set(newPos , 0);
@@ -185,7 +185,7 @@ public class Player {
             if(i==stones)
             {
                 freeturn++;
-                System.out.println("Free Turn ------------------------");
+                System.out.println("Free Turn --");
                 if(isOpponent){
                     myboard.setUpperBinStorage(myStorage);
                     myboard.setLowerBinStorage(opponentStorage);
@@ -221,10 +221,8 @@ public class Player {
         if(depth <= 0 || tempBoard.gameOver())
             return evaluate(tempBoard);
 
-        Board backupBoard = new Board(tempBoard);
+//        Board backupBoard = new Board(tempBoard);
         int curr_value, best_value;
-
-        boolean f = false;
 
         if(ismax)
         {
@@ -238,6 +236,7 @@ public class Player {
             for(int i = 0 ; i < Board.getTotalBins(); i++)
             {
                 //boolean turn = makemove(i);
+                Board backupBoard = new Board(tempBoard);
                 if(playerBin.get(i) != 0){
 
                     boolean turn = backupBoard.generateNextMove(i, isOpponent);
@@ -260,7 +259,7 @@ public class Player {
 
                 if(beta <= alpha)
                 {
-                    f = true;
+                    //f = true;
                     break;
                 }
             }
@@ -277,6 +276,7 @@ public class Player {
 
             for(int i = 0; i < Board.getTotalBins(); i++)
             {
+                Board backupBoard = new Board(tempBoard);
                 if(opponentBin.get(i) != 0) {
 
                     boolean turn = backupBoard.generateNextMove(i, !isOpponent);// For Min, play as the opponent of oppenent ie plays as myself
